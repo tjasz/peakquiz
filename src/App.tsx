@@ -173,6 +173,7 @@ function FilteredCorrectView(props : {
       <h4>{correctFiltered.length} ({Math.round(correctFiltered.length / allFiltered.length * 100)}%) of {allFiltered.length}</h4>
       <label htmlFor="cutoff">Prominence cutoff (ft):</label>
       <select name="cutoff" id="cutoff" onChange={(ev) => setCutoff(parseInt(ev.target.value))}>
+        <option value="300">300</option>
         <option value="400">400</option>
         <option value="1000">1,000</option>
         <option value="2000">2,000</option>
