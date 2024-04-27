@@ -218,7 +218,7 @@ const StateMap = (props : { geojson : FeatureCollection }) => {
           latlng,
           {radius: 1 + parseInt(feature.properties?.["prominenceFt"]) / 1000}
         );
-        marker.bindTooltip(feature.properties?.["title"]);
+        marker.bindTooltip(`${feature.properties?.["title"]} (P${parseInt(feature.properties?.["prominenceFt"])}ft)`);
         marker.bindPopup(ReactDOMServer.renderToString(
           <PopupBody feature={feature} />
       ))
@@ -228,24 +228,27 @@ const StateMap = (props : { geojson : FeatureCollection }) => {
   )
 }
 
+const notableFields = ["title", "elevationFt", "prominenceFt", "isolationMi", "orsMeters", "peakbaggerUrl"];
+
 function PopupBody(props : {feature : Feature}) {
   return (
-    <div style={{height: "200px", overflow: "auto"}}>
+    <div style={{height: "150px", overflow: "auto"}}>
     <table><tbody>
-      {Object.entries(props.feature.properties as object).map(([key, value]) =>
-        <tr key={key}>
-          <th>{key}</th>
-          <td>
-            {(value === "" ? undefined :
-              typeof value === "string" && value.startsWith("http")
-              ? <a target="_blank" href={value}>{value}</a>
-              : typeof value === "string" || typeof value === "number"
-                    ? value
-                    : JSON.stringify(value)
-            )}
-          </td>
-        </tr>
-      )}
+      {notableFields.map((key) => {
+        const value = props.feature.properties?.[key];
+        return <tr key={key}>
+        <th>{key}</th>
+        <td>
+          {(value === "" ? undefined :
+            typeof value === "string" && value.startsWith("http")
+            ? <a target="_blank" href={value}>...{value.slice(-17)}</a>
+            : typeof value === "string" || typeof value === "number"
+                  ? value
+                  : JSON.stringify(value)
+          )}
+        </td>
+      </tr>
+      })}
     </tbody></table>
     </div>
   );
