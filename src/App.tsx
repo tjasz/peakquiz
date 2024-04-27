@@ -114,6 +114,7 @@ function App() {
       <header className="App-header">
         <p>PeakQuiz</p>
       </header>
+      <p>How many of the <span className="highlighted">{data.features.length}</span> peaks can you name?</p>
       <form onSubmit={handleSubmit}>
         <label htmlFor={id}>Guess:</label>
         <input type="text" id={id} value={draft ?? ""} onInput={handleInput} />
