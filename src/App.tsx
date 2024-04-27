@@ -155,11 +155,11 @@ function App() {
           <li><a href="?e=26246&p=1000">World 8000m</a></li>
           <li><a href="?e=19685">World 6000m</a></li>
           <li><a href="?c=ca,us,mx">North America</a></li>
-          <li><a href="?c=us">United States</a></li>
-          <li><a href="?s=wa,or,ca,nv,id,mt,wy,ut,co,az,nm">Western Contiguous United States</a></li>
-          <li><a href="?s=me,nh,vt,ma,ct,ri">New England</a></li>
-          <li><a href="?s=wa&p=400">Washington</a></li>
-          <li><a href="?s=vt">Vermont</a></li>
+          <li><a href="?f=us&c=us">United States</a></li>
+          <li><a href="?f=us&s=wa,or,ca,nv,id,mt,wy,ut,co,az,nm">Western Contiguous United States</a></li>
+          <li><a href="?f=us&s=me,nh,vt,ma,ct,ri">New England</a></li>
+          <li><a href="?f=wa&s=wa&p=400">Washington</a></li>
+          <li><a href="?f=us&s=vt">Vermont</a></li>
         </ul>
       </div>
     </div>
