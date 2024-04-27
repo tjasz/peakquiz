@@ -9,7 +9,13 @@ const ignoredWords = ["peak", "mount", "mountain", "mt"];
 
 const normalize = (s : string) => s.trim().toLowerCase().replace(/[^a-z0-9\s]+/g, "").split(/\s+/).filter(
   part => !ignoredWords.includes(part)
-).join(" ");
+).map(part => {
+  if (part === "saint") {
+    return "st";
+  }
+  return part;
+})
+.join(" ");
 
 function isMatch(guess : string, answer : Feature) : boolean {
   const guessNormalized = normalize(guess);
