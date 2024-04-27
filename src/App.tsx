@@ -108,7 +108,6 @@ function App() {
 
   const totalProminence = data.features.reduce((acc, curr) => acc + parseInt(curr.properties?.["prominenceFt"]), 0);
   const correctProminence = Array.from(correct).reduce((acc, curr) => acc + parseInt(curr.properties?.["prominenceFt"]), 0);
-  console.log({totalProminence, correctProminence})
 
   return (
     <div className="App">
@@ -146,6 +145,14 @@ function App() {
         <FilteredCorrectView
           correct={Array.from(correct)}
           all={data.features}
+          featureKey="prominenceFt"
+          options={["300", "400", "1000", "2000", "3000", "5000", "10000"]}
+          />
+        <FilteredCorrectView
+          correct={Array.from(correct)}
+          all={data.features}
+          featureKey="elevationFt"
+          options={["10000", "13000", "14000"]}
           />
       </div>
     </div>
@@ -166,31 +173,27 @@ function GuessesView(props: {guesses : string[]}) {
 
 function FilteredCorrectView(props : {
   correct : Feature[],
-  all : Feature[]
+  all : Feature[],
+  featureKey : string,
+  options : string[]
   })
   {
-    const [cutoff, setCutoff] = useState(400);
+    const [cutoff, setCutoff] = useState(parseInt(props.options[0]));
     const [showAll, setShowAll] = useState(false);
-
-    const predicate = (feature:Feature) => parseInt(feature.properties?.["prominenceFt"]) >= cutoff;
+    
+    const predicate = (feature:Feature) => parseInt(feature.properties?.[props.featureKey]) >= cutoff;
     const correctFiltered = props.correct.filter(predicate);
     const allFiltered = props.all.filter(predicate);
     return <div id="all-correct">
       <h3>Peaks:</h3>
       <h4>{correctFiltered.length} ({Math.round(correctFiltered.length / allFiltered.length * 100)}%) of {allFiltered.length}</h4>
-      <label htmlFor="cutoff">Prominence cutoff (ft):</label>
+      <label htmlFor="cutoff">{props.featureKey} cutoff (ft):</label>
       <select name="cutoff" id="cutoff" onChange={(ev) => setCutoff(parseInt(ev.target.value))}>
-        <option value="300">300</option>
-        <option value="400">400</option>
-        <option value="1000">1,000</option>
-        <option value="2000">2,000</option>
-        <option value="3000">3,000</option>
-        <option value="5000">5,000</option>
-        <option value="10000">10,000</option>
+        {props.options.map(op => <option key={op} value={op}>{op}</option>)}
       </select>
       <ul>
         {correctFiltered.slice(0, showAll ? correctFiltered.length : 5).map(feature => (
-        <li>
+        <li key={feature.id}>
           <a className="App-link" target="_blank" href={feature.properties?.["peakbaggerUrl"]}>
             {feature.properties?.["title"]}
           </a>
