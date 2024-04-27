@@ -119,12 +119,20 @@ function App() {
           <StateMap geojson={correctFeatures} />
         </MapContainer>
       </div>
-      <ul>
-        {Array.from(guesses).map(guess => (<li>{guess}</li>))}
-      </ul>
-      <ul>
-        {Array.from(correct).map(feature => (<li>{feature.properties?.["title"]}</li>))}
-      </ul>
+      <div id="result-container">
+        <div id="all-correct">
+          <h3>All correct peaks ({correct.size} of {data.features.length}):</h3>
+          <ul>
+            {Array.from(correct).map(feature => (<li>{feature.properties?.["title"]}</li>))}
+          </ul>
+        </div>
+        <div id="all-guesses">
+          <h3>All guesses ({guesses.size} - {Math.round(correct.size / guesses.size * 100)}%):</h3>
+          <ul>
+            {Array.from(guesses).map(guess => (<li>{guess}</li>))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }

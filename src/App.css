@@ -48,3 +48,15 @@
   display: inline-block;
   text-align: left;
 }
+
+#result-container {
+  text-align: left;
+}
+
+#result-container>div {
+  width: 40vw;
+  float: left;
+  padding: 0.5vw;
+  margin: 0.5vw;
+  border: 0.25vw solid black;
+}
