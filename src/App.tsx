@@ -92,10 +92,10 @@ function App() {
   const handleSubmit : React.FormEventHandler<HTMLFormElement> = (ev) => {
     ev.preventDefault();
     if (draft && !guesses.has(draft)) {
-      setGuesses(new Set([...guesses.values(), draft]));
+      setGuesses(new Set([draft, ...guesses.values()]));
       const answers = data?.features.filter(v => isMatch(draft, v))
       if (answers && answers.length) {
-        setCorrect(new Set([...correct.values(), ...answers]));
+        setCorrect(new Set([...answers, ...correct.values()]));
         setDraft(null);
       }
     }
