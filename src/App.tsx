@@ -100,7 +100,10 @@ function App() {
               && (states.length === 0 || states.some(state => feature.properties?.["usState"].includes(state)))
           );
           // set any correct guesses
-          const answers = features.filter((feature:Feature) => Array.from(guesses).some(guess => isMatch(guess, feature)))
+          const answers = Array.from(guesses).reduce<Feature[]>((acc, guess) => {
+            const answersForGuess = features.filter((feature:Feature) => isMatch(guess, feature));
+            return [...acc, ...answersForGuess];
+          }, []);
           if (answers && answers.length) {
             setCorrect(new Set([...answers, ...correct.values()]));
           }
