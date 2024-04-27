@@ -96,9 +96,9 @@ function App() {
       const answers = data?.features.filter(v => isMatch(draft, v))
       if (answers && answers.length) {
         setCorrect(new Set([...correct.values(), ...answers]));
+        setDraft(null);
       }
     }
-    setDraft(null);
   };
   if (!data) {
     return null;
