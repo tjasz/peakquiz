@@ -120,22 +120,62 @@ function App() {
         </MapContainer>
       </div>
       <div id="result-container">
-        <div id="all-correct">
-          <h3>All correct peaks ({correct.size} of {data.features.length}):</h3>
-          <ul>
-            {Array.from(correct).map(feature => (<li>{feature.properties?.["title"]}</li>))}
-          </ul>
-        </div>
-        <div id="all-guesses">
-          <h3>All guesses ({guesses.size} - {Math.round(correct.size / guesses.size * 100)}%):</h3>
+        <div>
+          <h3>All guesses ({guesses.size}) - ({Math.round(correct.size / guesses.size * 100)}%):</h3>
           <ul>
             {Array.from(guesses).map(guess => (<li>{guess}</li>))}
           </ul>
         </div>
+        <FilteredCorrectView
+          correct={Array.from(correct)}
+          all={data.features}
+          predicate={(feature:Feature) => true}
+          title="All correct peaks"
+          />
+        <FilteredCorrectView
+          correct={Array.from(correct)}
+          all={data.features}
+          predicate={(feature:Feature) => feature.properties?.["prominence"] > 1000}
+          title="All correct P1000ft"
+          />
+        <FilteredCorrectView
+          correct={Array.from(correct)}
+          all={data.features}
+          predicate={(feature:Feature) => feature.properties?.["prominence"] > 2000}
+          title="All correct P2000ft"
+          />
+        <FilteredCorrectView
+          correct={Array.from(correct)}
+          all={data.features}
+          predicate={(feature:Feature) => feature.properties?.["prominence"] > 3000}
+          title="All correct P3000ft"
+          />
+        <FilteredCorrectView
+          correct={Array.from(correct)}
+          all={data.features}
+          predicate={(feature:Feature) => feature.properties?.["prominence"] > 5000}
+          title="All correct P5000ft"
+          />
       </div>
     </div>
   );
 }
+
+function FilteredCorrectView(props : {
+  correct : Feature[],
+  all : Feature[],
+  predicate : (feature:Feature) => boolean,
+  title : string})
+  {
+    const correctFiltered = props.correct.filter(props.predicate);
+    const allFiltered = props.all.filter(props.predicate);
+    return <div id="all-correct">
+      <h3>{props.title} ({correctFiltered.length} of {allFiltered.length}):</h3>
+      <ul>
+        {correctFiltered.map(feature => (<li>{feature.properties?.["title"]}</li>))}
+      </ul>
+    </div>
+  }
 
 function ChangeView() : null {
   const [center, setCenter] = useState<LatLng|null>(null);
