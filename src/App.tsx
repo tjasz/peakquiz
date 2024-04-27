@@ -136,19 +136,13 @@ function App() {
         </MapContainer>
       </div>
       <p>
-        You have guessed {correct.size} ({Math.round(correct.size / data.features.length * 100)}%)
+        You have named {correct.size} ({Math.round(correct.size / data.features.length * 100)}%)
         of {data.features.length} peaks,
         accounting for {Math.round(correctProminence / totalProminence * 100)}%
         of the total prominence.
       </p>
       <div id="result-container">
-        <div>
-          <h3>All guesses ({guesses.size}):</h3>
-          <h4>{Math.round(correct.size / guesses.size * 100)}% success rate.</h4>
-          <ul>
-            {Array.from(guesses).map(guess => (<li>{guess}</li>))}
-          </ul>
-        </div>
+        <GuessesView guesses={Array.from(guesses)} />
         <FilteredCorrectView
           correct={Array.from(correct)}
           all={data.features}
@@ -158,12 +152,25 @@ function App() {
   );
 }
 
+function GuessesView(props: {guesses : string[]}) {
+  const [showAll, setShowAll] = useState(false);
+
+  return <div>
+    <h3>All guesses ({props.guesses.length}):</h3>
+    <ul>
+      {props.guesses.slice(0, showAll ? props.guesses.length : 5).map(guess => (<li>{guess}</li>))}
+    </ul>
+    <a className="App-link" onClick={() => setShowAll(!showAll)}>Show {showAll ? "less" : "more"}</a>
+  </div>;
+}
+
 function FilteredCorrectView(props : {
   correct : Feature[],
   all : Feature[]
   })
   {
     const [cutoff, setCutoff] = useState(400);
+    const [showAll, setShowAll] = useState(false);
 
     const predicate = (feature:Feature) => parseInt(feature.properties?.["prominenceFt"]) >= cutoff;
     const correctFiltered = props.correct.filter(predicate);
@@ -182,8 +189,15 @@ function FilteredCorrectView(props : {
         <option value="10000">10,000</option>
       </select>
       <ul>
-        {correctFiltered.map(feature => (<li>{feature.properties?.["title"]}</li>))}
+        {correctFiltered.slice(0, showAll ? correctFiltered.length : 5).map(feature => (
+        <li>
+          <a className="App-link" target="_blank" href={feature.properties?.["peakbaggerUrl"]}>
+            {feature.properties?.["title"]}
+          </a>
+        </li>
+        ))}
       </ul>
+      <a className="App-link" onClick={() => setShowAll(!showAll)}>Show {showAll ? "less" : "more"}</a>
     </div>
   }
 
