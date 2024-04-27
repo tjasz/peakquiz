@@ -63,7 +63,8 @@ function App() {
 
   const processServerFile = (
     fname : string,
-    prominence : number
+    prominence : number,
+    elevation : number
   ) => {
     fetch(fname,{
         headers : {
@@ -77,7 +78,9 @@ function App() {
           setData({
             ...result,
             features: result.features.filter(
-              (feature : Feature) => feature.properties?.["prominenceFt"] > prominence
+              (feature : Feature) =>
+                feature.properties?.["prominenceFt"] > prominence
+                && feature.properties?.["elevationFt"] > elevation
             )
           });
         },
@@ -91,8 +94,9 @@ function App() {
   };
   const file = urlParams.get("f") ?? "wa";
   const prominence = parseInt(urlParams.get("p") ?? "300");
+  const elevation = parseInt(urlParams.get("e") ?? "0");
   useEffect(() => {
-    processServerFile(`json/${file}.json`, prominence);
+    processServerFile(`json/${file}.json`, prominence, elevation);
   }, [file]);
 
   const handleInput : React.FormEventHandler<HTMLInputElement> = (ev) => {
@@ -125,7 +129,8 @@ function App() {
       </header>
       <p>
         How many of the <span className="highlighted">{data.features.length}</span> peaks
-        with <span className="highlighted">{prominence}</span> feet of prominence
+        {elevation > 0 ? <> above <span className="highlighted">{elevation}</span> feet</> : null}
+        &nbsp;with <span className="highlighted">{prominence}</span> feet of prominence
         can you name?
       </p>
       <form onSubmit={handleSubmit}>
