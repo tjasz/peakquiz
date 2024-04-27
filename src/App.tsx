@@ -104,9 +104,9 @@ function App() {
     return null;
   }
 
-  const totalSquaredProminence = data.features.reduce((acc, curr) => acc + Math.pow(parseInt(curr.properties?.["prominenceFt"]), 2), 0);
-  const correctSquaredProminence = Array.from(correct).reduce((acc, curr) => acc + Math.pow(parseInt(curr.properties?.["prominenceFt"]), 2), 0);
-  console.log({totalSquaredProminence, correctSquaredProminence})
+  const totalProminence = data.features.reduce((acc, curr) => acc + parseInt(curr.properties?.["prominenceFt"]), 0);
+  const correctProminence = Array.from(correct).reduce((acc, curr) => acc + parseInt(curr.properties?.["prominenceFt"]), 0);
+  console.log({totalProminence, correctProminence})
 
   return (
     <div className="App">
@@ -136,8 +136,8 @@ function App() {
       <p>
         You have guessed {correct.size} ({Math.round(correct.size / data.features.length * 100)}%)
         of {data.features.length} peaks,
-        accounting for {Math.round(correctSquaredProminence / totalSquaredProminence * 100)}%
-        of the total squared prominence.
+        accounting for {Math.round(correctProminence / totalProminence * 100)}%
+        of the total prominence.
       </p>
       <div id="result-container">
         <div>
