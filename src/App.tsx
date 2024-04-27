@@ -122,7 +122,8 @@ function App() {
       </div>
       <div id="result-container">
         <div>
-          <h3>All guesses ({guesses.size}) - ({Math.round(correct.size / guesses.size * 100)}%):</h3>
+          <h3>All guesses ({guesses.size}):</h3>
+          <p>{Math.round(correct.size / guesses.size * 100)}% success rate.</p>
           <ul>
             {Array.from(guesses).map(guess => (<li>{guess}</li>))}
           </ul>
