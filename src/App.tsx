@@ -104,6 +104,10 @@ function App() {
     return null;
   }
 
+  const totalSquaredProminence = data.features.reduce((acc, curr) => acc + Math.pow(parseInt(curr.properties?.["prominenceFt"]), 2), 0);
+  const correctSquaredProminence = Array.from(correct).reduce((acc, curr) => acc + Math.pow(parseInt(curr.properties?.["prominenceFt"]), 2), 0);
+  console.log({totalSquaredProminence, correctSquaredProminence})
+
   return (
     <div className="App">
       <header className="App-header">
@@ -129,6 +133,12 @@ function App() {
           <StateMap geojson={correctFeatures} />
         </MapContainer>
       </div>
+      <p>
+        You have guessed {correct.size} ({Math.round(correct.size / data.features.length * 100)}%)
+        of {data.features.length} peaks,
+        accounting for {Math.round(correctSquaredProminence / totalSquaredProminence * 100)}%
+        of the total squared prominence.
+      </p>
       <div id="result-container">
         <div>
           <h3>All guesses ({guesses.size}):</h3>
