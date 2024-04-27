@@ -12,10 +12,10 @@ const answers = [
 const ignoredWords = ["peak", "mount", "mountain"];
 
 function isMatch(guess : string, answer : string) : boolean {
-  const guessNormalized = guess.trim().toLowerCase().split(/\s+/).filter(
+  const guessNormalized = guess.trim().toLowerCase().replace(/[^a-z0-9]+/g, "").split(/\s+/).filter(
     part => !ignoredWords.includes(part)
   ).join(" ");
-  const answerNormalized = answer.trim().toLowerCase().split(/\s+/).filter(
+  const answerNormalized = answer.trim().toLowerCase().replace(/[^a-z0-9]+/g, "").split(/\s+/).filter(
     part => !ignoredWords.includes(part)
   ).join(" ");
   return guessNormalized === answerNormalized;
