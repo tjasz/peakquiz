@@ -5,7 +5,7 @@ import { GeoJSON, LayersControl, MapContainer, ScaleControl, WMSTileLayer, useMa
 import L, { LatLng } from 'leaflet';
 import { Feature, FeatureCollection } from 'geojson';
 
-const ignoredWords = ["peak", "mount", "mountain"];
+const ignoredWords = ["peak", "mount", "mountain", "mt"];
 
 const normalize = (s : string) => s.trim().toLowerCase().replace(/[^a-z0-9\s]+/g, "").split(/\s+/).filter(
   part => !ignoredWords.includes(part)
