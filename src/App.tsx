@@ -81,9 +81,9 @@ function App() {
         }
       )
   };
-  const file = urlParams.get("f");
+  const file = urlParams.get("f") ?? "wa";
   useEffect(() => {
-    processServerFile(file === null ? "json/wa-peakbagger.json" : `json/${file}.json`);
+    processServerFile(`json/${file}.json`);
   }, [file]);
 
   const handleInput : React.FormEventHandler<HTMLInputElement> = (ev) => {
