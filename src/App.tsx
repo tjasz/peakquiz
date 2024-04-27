@@ -5,6 +5,7 @@ import './App.css';
 import { GeoJSON, LayersControl, MapContainer, ScaleControl, WMSTileLayer, useMap, useMapEvents } from 'react-leaflet';
 import L, { LatLng } from 'leaflet';
 import { Feature, FeatureCollection } from 'geojson';
+import iso3166 from 'iso-3166-2';
 
 const ignoredWords = ["peak", "mount", "mountain", "mt"];
 
@@ -64,7 +65,8 @@ function App() {
   const processServerFile = (
     fname : string,
     prominence : number,
-    elevation : number
+    elevation : number,
+    states : string[]
   ) => {
     fetch(fname,{
         headers : {
@@ -79,8 +81,9 @@ function App() {
             ...result,
             features: result.features.filter(
               (feature : Feature) =>
-                feature.properties?.["prominenceFt"] > prominence
-                && feature.properties?.["elevationFt"] > elevation
+                feature.properties?.["prominenceFt"] >= prominence
+                && feature.properties?.["elevationFt"] >= elevation
+                && (states.length === 0 || states.some(state => feature.properties?.["usState"].includes(state)))
             )
           });
         },
@@ -95,8 +98,18 @@ function App() {
   const file = urlParams.get("f") ?? "wa";
   const prominence = parseInt(urlParams.get("p") ?? "300");
   const elevation = parseInt(urlParams.get("e") ?? "0");
+  const states = urlParams
+    .get("s")
+    ?.split(",")
+    .reduce<string[]>((arr, s) => {
+      const isoResult = iso3166.subdivision("US", s.toUpperCase())?.name;
+      if (isoResult) {
+        return [...arr, isoResult];
+      }
+      return arr;
+    }, []) ?? [];
   useEffect(() => {
-    processServerFile(`json/${file}.json`, prominence, elevation);
+    processServerFile(`json/${file}.json`, prominence, elevation, states);
   }, [file]);
 
   const handleInput : React.FormEventHandler<HTMLInputElement> = (ev) => {
@@ -131,7 +144,8 @@ function App() {
         How many of the <span className="highlighted">{data.features.length}</span> peaks
         {elevation > 0 ? <> above <span className="highlighted">{elevation}</span> feet</> : null}
         &nbsp;with <span className="highlighted">{prominence}</span> feet of prominence
-        can you name?
+        &nbsp;in <span className="highlighted">{states.join(", ")}</span>
+        &nbsp;can you name?
       </p>
       <form onSubmit={handleSubmit}>
         <label htmlFor={id}>Guess:</label>

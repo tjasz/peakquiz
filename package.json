@@ -11,6 +11,7 @@
     "@types/node": "^16.18.96",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.0",
+    "iso-3166-2": "^1.0.0",
     "leaflet": "^1.9.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -47,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "@types/iso-3166-2": "^1.0.3",
     "@types/leaflet": "^1.9.12",
     "gh-pages": "^6.1.1"
   }
