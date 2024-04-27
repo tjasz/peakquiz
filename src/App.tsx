@@ -1,8 +1,8 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import './App.css';
 import { Feature, FeatureCollection } from './geojson';
-import { MapContainer } from 'react-leaflet';
-import L from 'leaflet';
+import { LayersControl, MapContainer, WMSTileLayer } from 'react-leaflet';
+import L, { Layer, TileLayerOptions, WMSOptions } from 'leaflet';
 
 
 const ignoredWords = ["peak", "mount", "mountain"];
@@ -82,8 +82,18 @@ function App() {
         <input type="text" id={id} value={draft ?? ""} onInput={handleInput} />
         <input type="submit" value="Submit" />
       </form>
-      <MapContainer ref={mapRef} whenReady={() => resizeMap(mapRef)}>
-      </MapContainer>
+      <div id="map">
+        <MapContainer
+          ref={mapRef}
+          whenReady={() => resizeMap(mapRef)}
+          >
+          <LayersControl position="topright">
+            <LayersControl.BaseLayer name="TNM Blank" checked>
+              <WMSTileLayer url="https://basemap.nationalmap.gov/arcgis/rest/services/USGSTNMBlank/MapServer/export" />
+            </LayersControl.BaseLayer>
+          </LayersControl>
+        </MapContainer>
+      </div>
       <ul>
         {Array.from(guesses).map(guess => (<li>{guess}</li>))}
       </ul>
