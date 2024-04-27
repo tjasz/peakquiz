@@ -157,7 +157,7 @@ function GuessesView(props: {guesses : string[]}) {
   return <div>
     <h3>All guesses ({props.guesses.length}):</h3>
     <ul>
-      {props.guesses.slice(0, showAll ? props.guesses.length : 5).map(guess => (<li>{guess}</li>))}
+      {props.guesses.slice(0, showAll ? props.guesses.length : 5).map(guess => (<li key={guess}>{guess}</li>))}
     </ul>
     <a className="App-link" onClick={() => setShowAll(!showAll)}>Show {showAll ? "less" : "more"}</a>
   </div>;
