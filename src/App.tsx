@@ -212,7 +212,12 @@ const StateMap = (props : { geojson : FeatureCollection }) => {
       ref={geoJsonRef}
       data={props.geojson}
       pointToLayer={(feature, latlng) => {
-        return new L.CircleMarker(latlng, {radius: 1 + parseInt(feature.properties?.["prominenceFt"]) / 1000})
+        const marker = new L.CircleMarker(
+          latlng,
+          {radius: 1 + parseInt(feature.properties?.["prominenceFt"]) / 1000}
+        );
+        marker.bindTooltip(feature.properties?.["title"]);
+        return marker;
       }}
     />
   )
