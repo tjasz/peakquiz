@@ -11,13 +11,13 @@ const answers = [
 
 const ignoredWords = ["peak", "mount", "mountain"];
 
+const normalize = (s : string) => s.trim().toLowerCase().replace(/[^a-z0-9]+/g, "").split(/\s+/).filter(
+  part => !ignoredWords.includes(part)
+).join(" ");
+
 function isMatch(guess : string, answer : string) : boolean {
-  const guessNormalized = guess.trim().toLowerCase().replace(/[^a-z0-9]+/g, "").split(/\s+/).filter(
-    part => !ignoredWords.includes(part)
-  ).join(" ");
-  const answerNormalized = answer.trim().toLowerCase().replace(/[^a-z0-9]+/g, "").split(/\s+/).filter(
-    part => !ignoredWords.includes(part)
-  ).join(" ");
+  const guessNormalized = normalize(guess);
+  const answerNormalized = normalize(answer);
   return guessNormalized === answerNormalized;
 }
 
