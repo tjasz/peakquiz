@@ -1,5 +1,6 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import ReactDOMServer from "react-dom/server";
+import { useSearchParams } from "react-router-dom";
 import './App.css';
 import { GeoJSON, LayersControl, MapContainer, ScaleControl, WMSTileLayer, useMap, useMapEvents } from 'react-leaflet';
 import L, { LatLng } from 'leaflet';
@@ -41,6 +42,7 @@ const baseLayer = {
 
 function App() {
   const id = useId();
+  const [urlParams, setUrlParams] = useSearchParams();
   const [draft, setDraft] = useState<null|string>(null);
   const [guesses, setGuesses] = useState<Set<string>>(new Set<string>());
   const [correct, setCorrect] = useState<Set<Feature>>(new Set<Feature>());
@@ -79,9 +81,10 @@ function App() {
         }
       )
   };
+  const file = urlParams.get("f");
   useEffect(() => {
-    processServerFile("json/wa-peakbagger.json");
-  }, []);
+    processServerFile(file === null ? "json/wa-peakbagger.json" : `json/${file}.json`);
+  }, [file]);
 
   const handleInput : React.FormEventHandler<HTMLInputElement> = (ev) => {
     setDraft(ev.currentTarget.value);
