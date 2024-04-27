@@ -1,18 +1,31 @@
 import React, { useId, useState } from 'react';
 import './App.css';
 
+const answers = [
+  "Rainier",
+  "Baker",
+  "St Helens",
+  "Adams",
+  "Glacier",
+];
+
 function App() {
   const id = useId();
   const [draft, setDraft] = useState<null|string>(null);
-  const [guesses, setGuesses] = useState<string[]>([]);
+  const [guesses, setGuesses] = useState<Set<string>>(new Set<string>());
+  const [correct, setCorrect] = useState<Set<string>>(new Set<string>());
 
   const handleInput : React.FormEventHandler<HTMLInputElement> = (ev) => {
     setDraft(ev.currentTarget.value);
   };
   const handleSubmit : React.FormEventHandler<HTMLFormElement> = (ev) => {
     ev.preventDefault();
-    if (draft && guesses.indexOf(draft) < 0) {
-      setGuesses([...guesses, draft]);
+    if (draft && !guesses.has(draft)) {
+      setGuesses(new Set([...guesses.values(), draft]));
+      const answer = answers.find(v => draft.toLowerCase().includes(v.toLowerCase()))
+      if (answer) {
+        setCorrect(new Set([...correct.values(), answer]));
+      }
     }
     setDraft(null);
   };
@@ -28,7 +41,10 @@ function App() {
         <input type="submit" value="Submit" />
       </form>
       <ul>
-        {guesses.map(guess => (<li>{guess}</li>))}
+        {Array.from(guesses).map(guess => (<li>{guess}</li>))}
+      </ul>
+      <ul>
+        {Array.from(correct).map(guess => (<li>{guess}</li>))}
       </ul>
     </div>
   );
