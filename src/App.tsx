@@ -180,12 +180,12 @@ function FilteredCorrectView(props : {
     const correctFiltered = props.correct.filter(predicate);
     const allFiltered = props.all.filter(predicate);
     return <div id="all-correct">
-      <h3>Peaks:</h3>
-      <h4>{correctFiltered.length} ({Math.round(correctFiltered.length / allFiltered.length * 100)}%) of {allFiltered.length}</h4>
+      <h3>{correctFiltered.length} ({Math.round(correctFiltered.length / allFiltered.length * 100)}%) of {allFiltered.length} filtered peaks:</h3>
       <label htmlFor="prominenceCutoff">Prominence cutoff (ft):</label>
       <select name="prominenceCutoff" id="prominenceCutoff" onChange={(ev) => setProminenceCutoff(parseInt(ev.target.value))}>
         {prominenceOptions.map(op => <option key={op} value={op}>{op}</option>)}
       </select>
+      <br />
       <label htmlFor="elevationCutoff">Elevation cutoff (ft):</label>
       <select name="elevationCutoff" id="elevationCutoff" onChange={(ev) => setElevationCutoff(parseInt(ev.target.value))}>
         {elevationOptions.map(op => <option key={op} value={op}>{op}</option>)}
