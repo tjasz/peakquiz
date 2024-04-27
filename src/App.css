@@ -37,7 +37,7 @@
   }
 }
 
-#map { height: 400px; width: 100%; }
+#map { height: 60vh; width: 100%; }
 
 .leaflet-container {
   width: 100%;
