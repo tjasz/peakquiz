@@ -63,13 +63,16 @@ function App() {
   };
 
   const processServerFile = (
-    fname : string,
-    prominence : number,
-    elevation : number,
+    fname : string | null,
+    prominence : string | null,
+    elevation : string | null,
     countries : string[],
     states : string[]
   ) => {
-    fetch(fname,{
+    if (!fname && !prominence && !elevation && countries.length === 0 && states.length === 0) {
+      return;
+    }
+    fetch(`json/${fname ?? "world"}.json`,{
         headers : {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
@@ -82,8 +85,8 @@ function App() {
             ...result,
             features: result.features.filter(
               (feature : Feature) =>
-                feature.properties?.["prominenceFt"] >= prominence
-                && feature.properties?.["elevationFt"] >= elevation
+                feature.properties?.["prominenceFt"] >= parseInt(prominence ?? "300")
+                && feature.properties?.["elevationFt"] >= parseInt(elevation ?? "0")
                 && (countries.length === 0 || countries.some(country => feature.properties?.["country"].includes(country)))
                 && (states.length === 0 || states.some(state => feature.properties?.["usState"].includes(state)))
             )
@@ -97,9 +100,9 @@ function App() {
         }
       )
   };
-  const file = urlParams.get("f") ?? "wa";
-  const prominence = parseInt(urlParams.get("p") ?? "300");
-  const elevation = parseInt(urlParams.get("e") ?? "0");
+  const file = urlParams.get("f");
+  const prominence = urlParams.get("p");
+  const elevation = urlParams.get("e");
   const countries = urlParams
   .get("c")
   ?.split(",")
@@ -121,8 +124,23 @@ function App() {
       return arr;
     }, []) ?? [];
   useEffect(() => {
-    processServerFile(`json/${file}.json`, prominence, elevation, countries, states);
-  }, [file]);
+    processServerFile(file, prominence, elevation, countries, states);
+  }, [file, prominence, elevation, countries, states]);
+  if (!file && !prominence && !elevation && countries.length === 0 && states.length === 0) {
+    return <div className="App">
+      <header className="App-header">
+        <p>PeakQuiz</p>
+      </header>
+      <div>
+        <h3>Select a peak quiz:</h3>
+        <ul>
+          <li><a href="?f=world">World Peaks</a></li>
+          <li><a href="?e=26246&p=1000">World 8000m Peaks</a></li>
+          <li><a href="?e=19685">World 6000m Peaks</a></li>
+        </ul>
+      </div>
+    </div>
+  }
 
   const handleInput : React.FormEventHandler<HTMLInputElement> = (ev) => {
     setDraft(ev.currentTarget.value);
@@ -150,12 +168,12 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>PeakQuiz</p>
+        <a href="?" className="App-link">PeakQuiz</a>
       </header>
       <p>
         How many of the <span className="highlighted">{data.features.length}</span> peaks
-        {elevation > 0 ? <> above <span className="highlighted">{elevation}</span> feet</> : null}
-        &nbsp;with <span className="highlighted">{prominence}</span> feet of prominence
+        {elevation !== null ? <> above <span className="highlighted">{elevation}</span> feet</> : null}
+        {prominence !== null ? <> with <span className="highlighted">{prominence}</span> feet of prominence</> : null}
         {countries.length > 0 ? <> in <span className="highlighted">{countries.join(", ")}</span></> : null}
         {states.length > 0 ? <> in <span className="highlighted">{states.join(", ")}</span></> : null}
         &nbsp;can you name?
