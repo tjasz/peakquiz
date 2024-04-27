@@ -145,14 +145,6 @@ function App() {
         <FilteredCorrectView
           correct={Array.from(correct)}
           all={data.features}
-          featureKey="prominenceFt"
-          options={["300", "400", "1000", "2000", "3000", "5000", "10000"]}
-          />
-        <FilteredCorrectView
-          correct={Array.from(correct)}
-          all={data.features}
-          featureKey="elevationFt"
-          options={["10000", "13000", "14000"]}
           />
       </div>
     </div>
@@ -173,23 +165,30 @@ function GuessesView(props: {guesses : string[]}) {
 
 function FilteredCorrectView(props : {
   correct : Feature[],
-  all : Feature[],
-  featureKey : string,
-  options : string[]
+  all : Feature[]
   })
   {
-    const [cutoff, setCutoff] = useState(parseInt(props.options[0]));
+    const prominenceOptions = [300, 400, 1000, 2000, 3000, 5000, 10000];
+    const elevationOptions = [0, 8000, 9000, 10000, 11000, 12000, 13000, 14000];
+    const [prominenceCutoff, setProminenceCutoff] = useState(prominenceOptions[0]);
+    const [elevationCutoff, setElevationCutoff] = useState(elevationOptions[0]);
     const [showAll, setShowAll] = useState(false);
     
-    const predicate = (feature:Feature) => parseInt(feature.properties?.[props.featureKey]) >= cutoff;
+    const predicate = (feature:Feature) =>
+      parseInt(feature.properties?.["prominenceFt"]) >= prominenceCutoff &&
+      parseInt(feature.properties?.["elevationFt"]) >= elevationCutoff;
     const correctFiltered = props.correct.filter(predicate);
     const allFiltered = props.all.filter(predicate);
     return <div id="all-correct">
       <h3>Peaks:</h3>
       <h4>{correctFiltered.length} ({Math.round(correctFiltered.length / allFiltered.length * 100)}%) of {allFiltered.length}</h4>
-      <label htmlFor="cutoff">{props.featureKey} cutoff (ft):</label>
-      <select name="cutoff" id="cutoff" onChange={(ev) => setCutoff(parseInt(ev.target.value))}>
-        {props.options.map(op => <option key={op} value={op}>{op}</option>)}
+      <label htmlFor="prominenceCutoff">Prominence cutoff (ft):</label>
+      <select name="prominenceCutoff" id="prominenceCutoff" onChange={(ev) => setProminenceCutoff(parseInt(ev.target.value))}>
+        {prominenceOptions.map(op => <option key={op} value={op}>{op}</option>)}
+      </select>
+      <label htmlFor="elevationCutoff">Elevation cutoff (ft):</label>
+      <select name="elevationCutoff" id="elevationCutoff" onChange={(ev) => setElevationCutoff(parseInt(ev.target.value))}>
+        {elevationOptions.map(op => <option key={op} value={op}>{op}</option>)}
       </select>
       <ul>
         {correctFiltered.slice(0, showAll ? correctFiltered.length : 5).map(feature => (
