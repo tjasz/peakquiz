@@ -7,7 +7,7 @@ import L, { LatLng } from 'leaflet';
 import { Feature, FeatureCollection } from 'geojson';
 import iso3166 from 'iso-3166-2';
 
-const ignoredWords = ["peak", "mount", "mountain", "mt"];
+const ignoredWords = ["peak", "mount", "mountain", "mt", "mont", "monte", "montana", "pico", "de", "volcano", "volcan", "la", "el", "the"];
 
 const normalize = (s : string) => s.trim().toLowerCase().normalize("NFKD").replace(/[^a-z0-9\s]+/g, "").split(/\s+/).filter(
   part => !ignoredWords.includes(part)
