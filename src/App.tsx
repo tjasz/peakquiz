@@ -73,7 +73,7 @@ function App() {
       )
   };
   useEffect(() => {
-    processServerFile("json/wa5000.json");
+    processServerFile("json/wa-peakbagger.json");
   }, []);
 
   const handleInput : React.FormEventHandler<HTMLInputElement> = (ev) => {
@@ -135,25 +135,25 @@ function App() {
         <FilteredCorrectView
           correct={Array.from(correct)}
           all={data.features}
-          predicate={(feature:Feature) => feature.properties?.["prominence"] > 1000}
+          predicate={(feature:Feature) => parseInt(feature.properties?.["prominenceFt"]) > 1000}
           title="All correct P1000ft"
           />
         <FilteredCorrectView
           correct={Array.from(correct)}
           all={data.features}
-          predicate={(feature:Feature) => feature.properties?.["prominence"] > 2000}
+          predicate={(feature:Feature) => parseInt(feature.properties?.["prominenceFt"]) > 2000}
           title="All correct P2000ft"
           />
         <FilteredCorrectView
           correct={Array.from(correct)}
           all={data.features}
-          predicate={(feature:Feature) => feature.properties?.["prominence"] > 3000}
+          predicate={(feature:Feature) => parseInt(feature.properties?.["prominenceFt"]) > 3000}
           title="All correct P3000ft"
           />
         <FilteredCorrectView
           correct={Array.from(correct)}
           all={data.features}
-          predicate={(feature:Feature) => feature.properties?.["prominence"] > 5000}
+          predicate={(feature:Feature) => parseInt(feature.properties?.["prominenceFt"]) > 5000}
           title="All correct P5000ft"
           />
       </div>
