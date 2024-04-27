@@ -4,7 +4,6 @@ import { GeoJSON, LayersControl, MapContainer, ScaleControl, WMSTileLayer, useMa
 import L, { LatLng, Layer, TileLayerOptions, WMSOptions } from 'leaflet';
 import { Feature, FeatureCollection } from 'geojson';
 
-
 const ignoredWords = ["peak", "mount", "mountain"];
 
 const normalize = (s : string) => s.trim().toLowerCase().replace(/[^a-z0-9\s]+/g, "").split(/\s+/).filter(
@@ -23,6 +22,10 @@ function App() {
   const [guesses, setGuesses] = useState<Set<string>>(new Set<string>());
   const [correct, setCorrect] = useState<Set<Feature>>(new Set<Feature>());
   const [data, setData] = useState<FeatureCollection>();
+  const correctFeatures : FeatureCollection = {
+    type: "FeatureCollection",
+    features: Array.from(correct),
+  };
   
   const mapRef = useRef<L.Map>(null);
   const resizeMap = ( mapRef : React.MutableRefObject<L.Map | null>) => {
@@ -97,7 +100,7 @@ function App() {
           </LayersControl>
           <ChangeView />
           <ScaleControl position="bottomleft" />
-          <GeoJSON data={data} />
+          <StateMap geojson={correctFeatures} />
         </MapContainer>
       </div>
       <ul>
@@ -126,6 +129,26 @@ function ChangeView() : null {
     map.setView([47.5,-122.3], 6);
   }
   return null;
+}
+
+const StateMap = (props : { geojson : FeatureCollection }) => {
+  // get a ref to the underlying L.geoJSON
+  const geoJsonRef = useRef<L.GeoJSON>(null)
+
+  // set the data to new data whenever it changes
+  useEffect(() => {
+    if (geoJsonRef.current){
+      geoJsonRef.current.clearLayers()   // remove old data
+      geoJsonRef.current.addData(props.geojson) // might need to be geojson.features
+    }
+  }, [geoJsonRef, props.geojson])
+
+  return (
+    <GeoJSON
+      ref={geoJsonRef}
+      data={props.geojson}
+    />
+  )
 }
 
 export default App;
