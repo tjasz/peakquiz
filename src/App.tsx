@@ -16,6 +16,22 @@ function isMatch(guess : string, answer : Feature) : boolean {
   return guessNormalized === answerNormalized;
 }
 
+const baseLayer = {
+  type: "WMSTileLayer",
+  name: "USGS TNM Blank",
+  checked: false,
+  layers: 'show%3A21',
+  f: 'image',
+  imageSR: 102100,
+  bboxSR: 102100,
+  format: 'png32',
+  transparent: true,
+  opacity: 1,
+  dpi: 96,
+  url: "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTNMBlank/MapServer/export",
+  attribution: 'Map data &copy; <a href="https://basemap.nationalmap.gov/arcgis/rest/services/USGSTNMBlank/MapServer">USGS</a>',
+};
+
 function App() {
   const id = useId();
   const [draft, setDraft] = useState<null|string>(null);
@@ -95,7 +111,7 @@ function App() {
           >
           <LayersControl position="topright">
             <LayersControl.BaseLayer name="TNM Blank" checked>
-              <WMSTileLayer url="https://basemap.nationalmap.gov/arcgis/rest/services/USGSTNMBlank/MapServer/export" />
+              <WMSTileLayer {...baseLayer} />
             </LayersControl.BaseLayer>
           </LayersControl>
           <ChangeView />
