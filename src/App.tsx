@@ -3,7 +3,7 @@ import ReactDOMServer from "react-dom/server";
 import { useSearchParams } from "react-router-dom";
 import './App.css';
 import { GeoJSON, LayersControl, MapContainer, ScaleControl, WMSTileLayer, useMap, useMapEvents } from 'react-leaflet';
-import L, { LatLng } from 'leaflet';
+import L, { LatLng, LatLngTuple } from 'leaflet';
 import { Feature, FeatureCollection } from 'geojson';
 import iso3166 from 'iso-3166-2';
 
@@ -169,15 +169,15 @@ function App() {
       <div>
         <h3>Select a peak quiz:</h3>
         <ul>
-          <li><a href="?p=300">World</a></li>
-          <li><a href="?e=26246&p=1000">World 8000m</a></li>
-          <li><a href="?e=19685">World 6000m</a></li>
-          <li><a href="?c=ca,us,mx">North America</a></li>
-          <li><a href="?f=us&c=us">United States</a></li>
-          <li><a href="?f=us&s=wa,or,ca,nv,id,mt,wy,ut,co,az,nm">Western Contiguous United States</a></li>
-          <li><a href="?f=us&s=me,nh,vt,ma,ct,ri">New England</a></li>
-          <li><a href="?f=wa&s=wa&p=400">Washington</a></li>
-          <li><a href="?f=us&s=vt">Vermont</a></li>
+          <li><a href="?p=300&z=2&ll=50.85707%2C52.38281">World</a></li>
+          <li><a href="?e=26246&p=1000&z=2&ll=50.85707%2C52.38281">World 8000m</a></li>
+          <li><a href="?e=19685&z=2&ll=50.85707%2C52.38281">World 6000m</a></li>
+          <li><a href="?c=ca,us,mx&z=3&ll=50.35023%2C-103.88672">North America</a></li>
+          <li><a href="?f=us&c=us&z=3&ll=50.35023%2C-103.88672">United States</a></li>
+          <li><a href="?f=us&s=wa,or,ca,nv,id,mt,wy,ut,co,az,nm&z=5&ll=40.26292%2C-108.19336">Western Contiguous United States</a></li>
+          <li><a href="?f=us&s=me,nh,vt,ma,ct,ri&z=6&ll=43.58783%2C-68.95020">New England</a></li>
+          <li><a href="?f=wa&s=wa&p=400&z=7&ll=47.35541%2C-120.81116">Washington</a></li>
+          <li><a href="?f=us&s=vt&z=8&ll=43.79677%2C-71.83411">Vermont</a></li>
         </ul>
       </div>
     </div>
@@ -289,6 +289,7 @@ function FilteredCorrectView(props : {
   }
 
 function ChangeView() : null {
+  const [urlParams, setUrlParams] = useSearchParams();
   const [center, setCenter] = useState<LatLng|null>(null);
   const [zoom, setZoom] = useState<number|null>(null);
   const map = useMap();
@@ -301,7 +302,10 @@ function ChangeView() : null {
       },
   });
   if (!center && !zoom) {
-    map.setView([47.5,-122.3], 6);
+    map.setView(
+      urlParams.get("ll")?.split(",").map(s => parseFloat(s)) as LatLngTuple ?? [38.56347, -98.39355],
+      parseInt(urlParams.get("z") ?? "5")
+    );
   }
   return null;
 }
