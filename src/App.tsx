@@ -1,8 +1,8 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import './App.css';
-import { Feature, FeatureCollection } from './geojson';
-import { LayersControl, MapContainer, WMSTileLayer } from 'react-leaflet';
-import L, { Layer, TileLayerOptions, WMSOptions } from 'leaflet';
+import { GeoJSON, LayersControl, MapContainer, ScaleControl, WMSTileLayer, useMap, useMapEvents } from 'react-leaflet';
+import L, { LatLng, Layer, TileLayerOptions, WMSOptions } from 'leaflet';
+import { Feature, FeatureCollection } from 'geojson';
 
 
 const ignoredWords = ["peak", "mount", "mountain"];
@@ -13,7 +13,7 @@ const normalize = (s : string) => s.trim().toLowerCase().replace(/[^a-z0-9\s]+/g
 
 function isMatch(guess : string, answer : Feature) : boolean {
   const guessNormalized = normalize(guess);
-  const answerNormalized = normalize(answer.properties["title"]);
+  const answerNormalized = normalize(answer.properties?.["title"]);
   return guessNormalized === answerNormalized;
 }
 
@@ -71,6 +71,9 @@ function App() {
     }
     setDraft(null);
   };
+  if (!data) {
+    return null;
+  }
 
   return (
     <div className="App">
@@ -92,16 +95,37 @@ function App() {
               <WMSTileLayer url="https://basemap.nationalmap.gov/arcgis/rest/services/USGSTNMBlank/MapServer/export" />
             </LayersControl.BaseLayer>
           </LayersControl>
+          <ChangeView />
+          <ScaleControl position="bottomleft" />
+          <GeoJSON data={data} />
         </MapContainer>
       </div>
       <ul>
         {Array.from(guesses).map(guess => (<li>{guess}</li>))}
       </ul>
       <ul>
-        {Array.from(correct).map(feature => (<li>{feature.properties["title"]}</li>))}
+        {Array.from(correct).map(feature => (<li>{feature.properties?.["title"]}</li>))}
       </ul>
     </div>
   );
+}
+
+function ChangeView() : null {
+  const [center, setCenter] = useState<LatLng|null>(null);
+  const [zoom, setZoom] = useState<number|null>(null);
+  const map = useMap();
+  const mapEvents = useMapEvents({
+      zoomend: () => {
+          setZoom(mapEvents.getZoom());
+      },
+      moveend: () => {
+          setCenter(mapEvents.getCenter());
+      },
+  });
+  if (!center && !zoom) {
+    map.setView([47.5,-122.3], 6);
+  }
+  return null;
 }
 
 export default App;
