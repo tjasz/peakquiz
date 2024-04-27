@@ -1,7 +1,8 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
+import ReactDOMServer from "react-dom/server";
 import './App.css';
 import { GeoJSON, LayersControl, MapContainer, ScaleControl, WMSTileLayer, useMap, useMapEvents } from 'react-leaflet';
-import L, { LatLng, Layer, TileLayerOptions, WMSOptions } from 'leaflet';
+import L, { LatLng } from 'leaflet';
 import { Feature, FeatureCollection } from 'geojson';
 
 const ignoredWords = ["peak", "mount", "mountain"];
@@ -217,10 +218,36 @@ const StateMap = (props : { geojson : FeatureCollection }) => {
           {radius: 1 + parseInt(feature.properties?.["prominenceFt"]) / 1000}
         );
         marker.bindTooltip(feature.properties?.["title"]);
+        marker.bindPopup(ReactDOMServer.renderToString(
+          <PopupBody feature={feature} />
+      ))
         return marker;
       }}
     />
   )
+}
+
+function PopupBody(props : {feature : Feature}) {
+  return (
+    <div style={{height: "200px", overflow: "auto"}}>
+    <table><tbody>
+      {Object.entries(props.feature.properties as object).map(([key, value]) =>
+        <tr key={key}>
+          <th>{key}</th>
+          <td>
+            {(value === "" ? undefined :
+              typeof value === "string" && value.startsWith("http")
+              ? <a target="_blank" href={value}>{value}</a>
+              : typeof value === "string" || typeof value === "number"
+                    ? value
+                    : JSON.stringify(value)
+            )}
+          </td>
+        </tr>
+      )}
+    </tbody></table>
+    </div>
+  );
 }
 
 export default App;
