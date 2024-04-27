@@ -61,7 +61,10 @@ function App() {
     }
   };
 
-  const processServerFile = (fname : string) => {
+  const processServerFile = (
+    fname : string,
+    prominence : number
+  ) => {
     fetch(fname,{
         headers : {
           'Content-Type': 'application/json',
@@ -71,7 +74,12 @@ function App() {
       .then(res => res.json())
       .then(
         (result) => {
-          setData(result);
+          setData({
+            ...result,
+            features: result.features.filter(
+              (feature : Feature) => feature.properties?.["prominenceFt"] > prominence
+            )
+          });
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
@@ -82,8 +90,9 @@ function App() {
       )
   };
   const file = urlParams.get("f") ?? "wa";
+  const prominence = parseInt(urlParams.get("p") ?? "300");
   useEffect(() => {
-    processServerFile(`json/${file}.json`);
+    processServerFile(`json/${file}.json`, prominence);
   }, [file]);
 
   const handleInput : React.FormEventHandler<HTMLInputElement> = (ev) => {
@@ -114,7 +123,11 @@ function App() {
       <header className="App-header">
         <p>PeakQuiz</p>
       </header>
-      <p>How many of the <span className="highlighted">{data.features.length}</span> peaks can you name?</p>
+      <p>
+        How many of the <span className="highlighted">{data.features.length}</span> peaks
+        with <span className="highlighted">{prominence}</span> feet of prominence
+        can you name?
+      </p>
       <form onSubmit={handleSubmit}>
         <label htmlFor={id}>Guess:</label>
         <input type="text" id={id} value={draft ?? ""} onInput={handleInput} />
