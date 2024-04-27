@@ -45,7 +45,12 @@ function App() {
   const id = useId();
   const [urlParams, setUrlParams] = useSearchParams();
   const [draft, setDraft] = useState<null|string>(null);
-  const [guesses, setGuesses] = useState<Set<string>>(new Set<string>());
+  const [guesses, setGuesses] = useState<Set<string>>(() => {
+    const saved = localStorage.getItem(window.location.href);
+    if (!saved) return new Set();
+    const initialValue = JSON.parse(saved);
+    return new Set(initialValue);
+  });
   const [correct, setCorrect] = useState<Set<Feature>>(new Set<Feature>());
   const [data, setData] = useState<FeatureCollection>();
   const correctFeatures : FeatureCollection = {
@@ -61,6 +66,11 @@ function App() {
       resizeObserver.observe(container)
     }
   };
+
+  // store guesses in local browser storage
+  useEffect(() => {
+    localStorage.setItem(window.location.href, JSON.stringify(Array.from(guesses)));
+  }, [guesses]);
 
   const processServerFile = (
     fname : string | null,
@@ -81,16 +91,21 @@ function App() {
       .then(res => res.json())
       .then(
         (result) => {
-          setData({
-            ...result,
-            features: result.features.filter(
-              (feature : Feature) =>
-                feature.properties?.["prominenceFt"] >= parseInt(prominence ?? "300")
-                && feature.properties?.["elevationFt"] >= parseInt(elevation ?? "0")
-                && (countries.length === 0 || countries.some(country => feature.properties?.["country"].includes(country)))
-                && (states.length === 0 || states.some(state => feature.properties?.["usState"].includes(state)))
-            )
-          });
+          // filter the features according to the parameters
+          const features = result.features.filter(
+            (feature : Feature) =>
+              feature.properties?.["prominenceFt"] >= parseInt(prominence ?? "300")
+              && feature.properties?.["elevationFt"] >= parseInt(elevation ?? "0")
+              && (countries.length === 0 || countries.some(country => feature.properties?.["country"].includes(country)))
+              && (states.length === 0 || states.some(state => feature.properties?.["usState"].includes(state)))
+          );
+          // set any correct guesses
+          const answers = features.filter((feature:Feature) => Array.from(guesses).some(guess => isMatch(guess, feature)))
+          if (answers && answers.length) {
+            setCorrect(new Set([...answers, ...correct.values()]));
+          }
+          // set the data
+          setData({...result, features});
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
@@ -100,10 +115,10 @@ function App() {
         }
       )
   };
-  const file = urlParams.get("f");
-  const prominence = urlParams.get("p");
-  const elevation = urlParams.get("e");
-  const countries = urlParams
+  const [file, setFile] = useState(urlParams.get("f"));
+  const [prominence, setProminence] = useState(urlParams.get("p"));
+  const [elevation, setElevation] = useState(urlParams.get("e"));
+  const [countries, setCountries] = useState(urlParams
   .get("c")
   ?.split(",")
   .reduce<string[]>((arr, s) => {
@@ -112,8 +127,8 @@ function App() {
       return [...arr, isoResult];
     }
     return arr;
-  }, []) ?? [];
-  const states = urlParams
+  }, []) ?? []);
+  const [states, setStates] = useState(urlParams
     .get("s")
     ?.split(",")
     .reduce<string[]>((arr, s) => {
@@ -122,7 +137,7 @@ function App() {
         return [...arr, isoResult];
       }
       return arr;
-    }, []) ?? [];
+    }, []) ?? []);
   useEffect(() => {
     processServerFile(file, prominence, elevation, countries, states);
   }, [file, prominence, elevation, countries, states]);
