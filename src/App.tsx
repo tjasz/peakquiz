@@ -1,6 +1,9 @@
-import React, { useEffect, useId, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import './App.css';
 import { Feature, FeatureCollection } from './geojson';
+import { MapContainer } from 'react-leaflet';
+import L from 'leaflet';
+
 
 const ignoredWords = ["peak", "mount", "mountain"];
 
@@ -20,6 +23,15 @@ function App() {
   const [guesses, setGuesses] = useState<Set<string>>(new Set<string>());
   const [correct, setCorrect] = useState<Set<Feature>>(new Set<Feature>());
   const [data, setData] = useState<FeatureCollection>();
+  
+  const mapRef = useRef<L.Map>(null);
+  const resizeMap = ( mapRef : React.MutableRefObject<L.Map | null>) => {
+    const resizeObserver = new ResizeObserver(() => mapRef?.current?.invalidateSize())
+    const container = document.getElementById('mapview')
+    if (container) {
+      resizeObserver.observe(container)
+    }
+  };
 
   const processServerFile = (fname : string) => {
     fetch(fname,{
@@ -70,6 +82,8 @@ function App() {
         <input type="text" id={id} value={draft ?? ""} onInput={handleInput} />
         <input type="submit" value="Submit" />
       </form>
+      <MapContainer ref={mapRef} whenReady={() => resizeMap(mapRef)}>
+      </MapContainer>
       <ul>
         {Array.from(guesses).map(guess => (<li>{guess}</li>))}
       </ul>
