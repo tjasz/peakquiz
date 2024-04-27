@@ -98,6 +98,8 @@ function App() {
         setCorrect(new Set([...answers, ...correct.values()]));
         setDraft(null);
       }
+    } else {
+      setDraft(null);
     }
   };
   if (!data) {
