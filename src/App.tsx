@@ -9,7 +9,7 @@ import iso3166 from 'iso-3166-2';
 
 const ignoredWords = ["peak", "mount", "mountain", "mt"];
 
-const normalize = (s : string) => s.trim().toLowerCase().replace(/[^a-z0-9\s]+/g, "").split(/\s+/).filter(
+const normalize = (s : string) => s.trim().toLowerCase().normalize("NFKD").replace(/[^a-z0-9\s]+/g, "").split(/\s+/).filter(
   part => !ignoredWords.includes(part)
 ).map(part => {
   if (part === "saint") {
