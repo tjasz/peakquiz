@@ -9,6 +9,18 @@ const answers = [
   "Glacier",
 ];
 
+const ignoredWords = ["peak", "mount", "mountain"];
+
+function isMatch(guess : string, answer : string) : boolean {
+  const guessNormalized = guess.trim().toLowerCase().split(/\s+/).filter(
+    part => !ignoredWords.includes(part)
+  ).join(" ");
+  const answerNormalized = answer.trim().toLowerCase().split(/\s+/).filter(
+    part => !ignoredWords.includes(part)
+  ).join(" ");
+  return guessNormalized === answerNormalized;
+}
+
 function App() {
   const id = useId();
   const [draft, setDraft] = useState<null|string>(null);
@@ -22,7 +34,7 @@ function App() {
     ev.preventDefault();
     if (draft && !guesses.has(draft)) {
       setGuesses(new Set([...guesses.values(), draft]));
-      const answer = answers.find(v => draft.toLowerCase().includes(v.toLowerCase()))
+      const answer = answers.find(v => isMatch(draft, v))
       if (answer) {
         setCorrect(new Set([...correct.values(), answer]));
       }
