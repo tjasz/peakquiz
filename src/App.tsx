@@ -66,6 +66,7 @@ function App() {
     fname : string,
     prominence : number,
     elevation : number,
+    countries : string[],
     states : string[]
   ) => {
     fetch(fname,{
@@ -83,6 +84,7 @@ function App() {
               (feature : Feature) =>
                 feature.properties?.["prominenceFt"] >= prominence
                 && feature.properties?.["elevationFt"] >= elevation
+                && (countries.length === 0 || countries.some(country => feature.properties?.["country"].includes(country)))
                 && (states.length === 0 || states.some(state => feature.properties?.["usState"].includes(state)))
             )
           });
@@ -98,6 +100,16 @@ function App() {
   const file = urlParams.get("f") ?? "wa";
   const prominence = parseInt(urlParams.get("p") ?? "300");
   const elevation = parseInt(urlParams.get("e") ?? "0");
+  const countries = urlParams
+  .get("c")
+  ?.split(",")
+  .reduce<string[]>((arr, s) => {
+    const isoResult = iso3166.country(s.toUpperCase())?.name;
+    if (isoResult) {
+      return [...arr, isoResult];
+    }
+    return arr;
+  }, []) ?? [];
   const states = urlParams
     .get("s")
     ?.split(",")
@@ -109,7 +121,7 @@ function App() {
       return arr;
     }, []) ?? [];
   useEffect(() => {
-    processServerFile(`json/${file}.json`, prominence, elevation, states);
+    processServerFile(`json/${file}.json`, prominence, elevation, countries, states);
   }, [file]);
 
   const handleInput : React.FormEventHandler<HTMLInputElement> = (ev) => {
@@ -144,7 +156,8 @@ function App() {
         How many of the <span className="highlighted">{data.features.length}</span> peaks
         {elevation > 0 ? <> above <span className="highlighted">{elevation}</span> feet</> : null}
         &nbsp;with <span className="highlighted">{prominence}</span> feet of prominence
-        &nbsp;in <span className="highlighted">{states.join(", ")}</span>
+        {countries.length > 0 ? <> in <span className="highlighted">{countries.join(", ")}</span></> : null}
+        {states.length > 0 ? <> in <span className="highlighted">{states.join(", ")}</span></> : null}
         &nbsp;can you name?
       </p>
       <form onSubmit={handleSubmit}>
@@ -285,7 +298,7 @@ const StateMap = (props : { geojson : FeatureCollection }) => {
   )
 }
 
-const notableFields = ["title", "elevationFt", "prominenceFt", "isolationMi", "orsMeters", "peakbaggerUrl"];
+const notableFields = ["title", "country", "usState", "elevationFt", "prominenceFt", "isolationMi", "orsMeters", "peakbaggerUrl"];
 
 function PopupBody(props : {feature : Feature}) {
   return (
