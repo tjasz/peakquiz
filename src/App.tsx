@@ -126,21 +126,6 @@ function App() {
   useEffect(() => {
     processServerFile(file, prominence, elevation, countries, states);
   }, [file, prominence, elevation, countries, states]);
-  if (!file && !prominence && !elevation && countries.length === 0 && states.length === 0) {
-    return <div className="App">
-      <header className="App-header">
-        <p>PeakQuiz</p>
-      </header>
-      <div>
-        <h3>Select a peak quiz:</h3>
-        <ul>
-          <li><a href="?f=world">World Peaks</a></li>
-          <li><a href="?e=26246&p=1000">World 8000m Peaks</a></li>
-          <li><a href="?e=19685">World 6000m Peaks</a></li>
-        </ul>
-      </div>
-    </div>
-  }
 
   const handleInput : React.FormEventHandler<HTMLInputElement> = (ev) => {
     setDraft(ev.currentTarget.value);
@@ -159,7 +144,19 @@ function App() {
     }
   };
   if (!data) {
-    return null;
+    return <div className="App">
+      <header className="App-header">
+        <p>PeakQuiz</p>
+      </header>
+      <div>
+        <h3>Select a peak quiz:</h3>
+        <ul>
+          <li><a href="?f=world">World Peaks</a></li>
+          <li><a href="?e=26246&p=1000">World 8000m Peaks</a></li>
+          <li><a href="?e=19685">World 6000m Peaks</a></li>
+        </ul>
+      </div>
+    </div>
   }
 
   const totalProminence = data.features.reduce((acc, curr) => acc + parseInt(curr.properties?.["prominenceFt"]), 0);
