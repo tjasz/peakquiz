@@ -144,7 +144,7 @@ function App() {
       <div id="result-container">
         <div>
           <h3>All guesses ({guesses.size}):</h3>
-          <p>{Math.round(correct.size / guesses.size * 100)}% success rate.</p>
+          <h4>{Math.round(correct.size / guesses.size * 100)}% success rate.</h4>
           <ul>
             {Array.from(guesses).map(guess => (<li>{guess}</li>))}
           </ul>
@@ -152,32 +152,6 @@ function App() {
         <FilteredCorrectView
           correct={Array.from(correct)}
           all={data.features}
-          predicate={(feature:Feature) => true}
-          title="All correct peaks"
-          />
-        <FilteredCorrectView
-          correct={Array.from(correct)}
-          all={data.features}
-          predicate={(feature:Feature) => parseInt(feature.properties?.["prominenceFt"]) > 1000}
-          title="All correct P1000ft"
-          />
-        <FilteredCorrectView
-          correct={Array.from(correct)}
-          all={data.features}
-          predicate={(feature:Feature) => parseInt(feature.properties?.["prominenceFt"]) > 2000}
-          title="All correct P2000ft"
-          />
-        <FilteredCorrectView
-          correct={Array.from(correct)}
-          all={data.features}
-          predicate={(feature:Feature) => parseInt(feature.properties?.["prominenceFt"]) > 3000}
-          title="All correct P3000ft"
-          />
-        <FilteredCorrectView
-          correct={Array.from(correct)}
-          all={data.features}
-          predicate={(feature:Feature) => parseInt(feature.properties?.["prominenceFt"]) > 5000}
-          title="All correct P5000ft"
           />
       </div>
     </div>
@@ -186,14 +160,26 @@ function App() {
 
 function FilteredCorrectView(props : {
   correct : Feature[],
-  all : Feature[],
-  predicate : (feature:Feature) => boolean,
-  title : string})
+  all : Feature[]
+  })
   {
-    const correctFiltered = props.correct.filter(props.predicate);
-    const allFiltered = props.all.filter(props.predicate);
+    const [cutoff, setCutoff] = useState(400);
+
+    const predicate = (feature:Feature) => parseInt(feature.properties?.["prominenceFt"]) >= cutoff;
+    const correctFiltered = props.correct.filter(predicate);
+    const allFiltered = props.all.filter(predicate);
     return <div id="all-correct">
-      <h3>{props.title} ({correctFiltered.length} of {allFiltered.length}):</h3>
+      <h3>Peaks:</h3>
+      <h4>{correctFiltered.length} ({Math.round(correctFiltered.length / allFiltered.length * 100)}%) of {allFiltered.length}</h4>
+      <label htmlFor="cutoff">Prominence cutoff (ft):</label>
+      <select name="cutoff" id="cutoff" onChange={(ev) => setCutoff(parseInt(ev.target.value))}>
+        <option value="400">400</option>
+        <option value="1000">1,000</option>
+        <option value="2000">2,000</option>
+        <option value="3000">3,000</option>
+        <option value="5000">5,000</option>
+        <option value="10000">10,000</option>
+      </select>
       <ul>
         {correctFiltered.map(feature => (<li>{feature.properties?.["title"]}</li>))}
       </ul>
