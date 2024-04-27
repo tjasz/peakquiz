@@ -84,9 +84,9 @@ function App() {
     ev.preventDefault();
     if (draft && !guesses.has(draft)) {
       setGuesses(new Set([...guesses.values(), draft]));
-      const answer = data?.features.find(v => isMatch(draft, v))
-      if (answer) {
-        setCorrect(new Set([...correct.values(), answer]));
+      const answers = data?.features.filter(v => isMatch(draft, v))
+      if (answers && answers.length) {
+        setCorrect(new Set([...correct.values(), ...answers]));
       }
     }
     setDraft(null);
