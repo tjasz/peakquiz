@@ -40,6 +40,21 @@ const baseLayer = {
   url: "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTNMBlank/MapServer/export",
   attribution: 'Map data &copy; <a href="https://basemap.nationalmap.gov/arcgis/rest/services/USGSTNMBlank/MapServer">USGS</a>',
 };
+const overlay = {
+  type: "WMSTileLayer",
+  name: "USGS Shaded Relief",
+  checked: false,
+  layers: 'show%3A21',
+  f: 'image',
+  imageSR: 102100,
+  bboxSR: 102100,
+  format: 'png32',
+  transparent: true,
+  opacity: 0.6,
+  dpi: 96,
+  url: "https://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer/export",
+  attribution: 'Map data &copy; <a href="https://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer">USGS</a>',
+};
 
 function App() {
   const id = useId();
@@ -213,6 +228,9 @@ function App() {
             <LayersControl.BaseLayer name="TNM Blank" checked>
               <WMSTileLayer {...baseLayer} />
             </LayersControl.BaseLayer>
+            <LayersControl.Overlay name={"Shaded Relief"} checked>
+              <WMSTileLayer {...overlay} />
+            </LayersControl.Overlay>
           </LayersControl>
           <ChangeView />
           <ScaleControl position="bottomleft" />
