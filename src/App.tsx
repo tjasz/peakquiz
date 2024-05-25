@@ -7,11 +7,13 @@ import L, { LatLng, LatLngTuple } from 'leaflet';
 import { Feature, FeatureCollection } from 'geojson';
 import iso3166 from 'iso-3166-2';
 
+// TODO make ignored words configurable in the file
 const ignoredWords = ["peak", "mount", "mountain", "mt", "mont", "monte", "montana", "pico", "de", "volcano", "volcan", "la", "el", "the"];
 
 const normalize = (s : string) => s.trim().toLowerCase().normalize("NFKD").replace(/[^a-z0-9\s]+/g, "").split(/\s+/).filter(
   part => !ignoredWords.includes(part)
 ).map(part => {
+  // TODO define more abbreviations
   if (part === "saint") {
     return "st";
   }
@@ -21,6 +23,7 @@ const normalize = (s : string) => s.trim().toLowerCase().normalize("NFKD").repla
 
 function isMatch(guess : string, answer : Feature) : boolean {
   const guessNormalized = normalize(guess);
+  // TODO make matching field(s) configurable in the file
   const answerNormalized = normalize(answer.properties?.["title"]);
   return guessNormalized === answerNormalized;
 }
@@ -89,6 +92,7 @@ function App() {
 
   const processServerFile = (
     fname : string | null,
+    // TODO make these URL param filters general
     prominence : string | null,
     elevation : string | null,
     countries : string[],
@@ -97,6 +101,7 @@ function App() {
     if (!fname && !prominence && !elevation && countries.length === 0 && states.length === 0) {
       return;
     }
+    // TODO switch the default file to something I have a license for
     fetch(`json/${fname ?? "world"}.json`,{
         headers : {
           'Content-Type': 'application/json',
@@ -107,6 +112,7 @@ function App() {
       .then(
         (result) => {
           // filter the features according to the parameters
+          // TODO make these filters configurable
           const features = result.features.filter(
             (feature : Feature) =>
               feature.properties?.["prominenceFt"] >= parseInt(prominence ?? "300")
@@ -134,6 +140,7 @@ function App() {
       )
   };
   const [file, setFile] = useState(urlParams.get("f"));
+  // TODO these filters and URL params should be configurable
   const [prominence, setProminence] = useState(urlParams.get("p"));
   const [elevation, setElevation] = useState(urlParams.get("e"));
   const [countries, setCountries] = useState(urlParams
@@ -179,34 +186,36 @@ function App() {
   if (!data) {
     return <div className="App">
       <header className="App-header">
-        <p>PeakQuiz</p>
+        <p>GeoQuiz</p>
       </header>
       <div>
-        <h3>Select a peak quiz:</h3>
+        <h3>Select a quiz:</h3>
         <ul>
-          <li><a href="?p=300&z=2&ll=50.85707%2C52.38281">World</a></li>
-          <li><a href="?e=26246&p=1000&z=2&ll=50.85707%2C52.38281">World 8000m</a></li>
-          <li><a href="?e=19685&z=2&ll=50.85707%2C52.38281">World 6000m</a></li>
-          <li><a href="?c=ca,us,mx&z=3&ll=50.35023%2C-103.88672">North America</a></li>
-          <li><a href="?f=us&c=us&z=3&ll=50.35023%2C-103.88672">United States</a></li>
-          <li><a href="?f=us&s=wa,or,ca,nv,id,mt,wy,ut,co,az,nm&z=5&ll=40.26292%2C-108.19336">Western Contiguous United States</a></li>
-          <li><a href="?f=us&s=me,nh,vt,ma,ct,ri&z=6&ll=43.58783%2C-68.95020">New England</a></li>
-          <li><a href="?f=wa&s=wa&p=400&z=7&ll=47.35541%2C-120.81116">Washington</a></li>
-          <li><a href="?f=us&s=vt&z=8&ll=43.79677%2C-71.83411">Vermont</a></li>
+          <li><a href="?p=300&z=2&ll=50.85707%2C52.38281">World Peaks</a></li>
+          <li><a href="?e=26246&p=1000&z=2&ll=50.85707%2C52.38281">World 8000m Peaks</a></li>
+          <li><a href="?e=19685&z=2&ll=50.85707%2C52.38281">World 6000m Peaks</a></li>
+          <li><a href="?c=ca,us,mx&z=3&ll=50.35023%2C-103.88672">North America Peaks</a></li>
+          <li><a href="?f=us&c=us&z=3&ll=50.35023%2C-103.88672">United States Peaks</a></li>
+          <li><a href="?f=us&s=wa,or,ca,nv,id,mt,wy,ut,co,az,nm&z=5&ll=40.26292%2C-108.19336">Western Contiguous United States Peaks</a></li>
+          <li><a href="?f=us&s=me,nh,vt,ma,ct,ri&z=6&ll=43.58783%2C-68.95020">New England Peaks</a></li>
+          <li><a href="?f=wa&s=wa&p=400&z=7&ll=47.35541%2C-120.81116">Washington Peaks</a></li>
+          <li><a href="?f=us&s=vt&z=8&ll=43.79677%2C-71.83411">Vermont Peaks</a></li>
         </ul>
       </div>
     </div>
   }
 
+  // TODO make the binning, summing, and ranking properties configurable
   const totalProminence = data.features.reduce((acc, curr) => acc + parseInt(curr.properties?.["prominenceFt"]), 0);
   const correctProminence = Array.from(correct).reduce((acc, curr) => acc + parseInt(curr.properties?.["prominenceFt"]), 0);
 
   return (
     <div className="App">
       <header className="App-header">
-        <a href="?" className="App-link">PeakQuiz</a>
+        <a href="?" className="App-link">GeoQuiz</a>
       </header>
       <p>
+        TODO make this message abstract -- 
         How many of the <span className="highlighted">{data.features.length}</span> peaks
         {elevation !== null ? <> above <span className="highlighted">{elevation}</span> feet</> : null}
         {prominence !== null ? <> with <span className="highlighted">{prominence}</span> feet of prominence</> : null}
@@ -238,6 +247,7 @@ function App() {
         </MapContainer>
       </div>
       <p>
+        TODO make this message abstract -- 
         You have named {correct.size} ({Math.round(correct.size / data.features.length * 100)}%)
         of {data.features.length} peaks,
         accounting for {Math.round(correctProminence / totalProminence * 100)}%
@@ -271,6 +281,7 @@ function FilteredCorrectView(props : {
   all : Feature[]
   })
   {
+    // TODO make binning, summing, and ranking parameters configurable in the file
     const prominenceOptions = [300, 400, 1000, 2000, 3000, 5000, 10000];
     const elevationOptions = [0, 8000, 9000, 10000, 11000, 12000, 13000, 14000];
     const [prominenceCutoff, setProminenceCutoff] = useState(prominenceOptions[0]);
@@ -319,6 +330,7 @@ function ChangeView() : null {
           setCenter(mapEvents.getCenter());
       },
   });
+  // TODO make the default map view configurable in the file
   if (!center && !zoom) {
     map.setView(
       urlParams.get("ll")?.split(",").map(s => parseFloat(s)) as LatLngTuple ?? [38.56347, -98.39355],
@@ -340,6 +352,7 @@ const StateMap = (props : { geojson : FeatureCollection }) => {
     }
   }, [geoJsonRef, props.geojson])
 
+  // TODO make the symbology come from the file
   return (
     <GeoJSON
       ref={geoJsonRef}
@@ -359,6 +372,7 @@ const StateMap = (props : { geojson : FeatureCollection }) => {
   )
 }
 
+// TODO make these popup fields come from the file
 const notableFields = ["title", "country", "usState", "elevationFt", "prominenceFt", "isolationMi", "orsMeters", "peakbaggerUrl"];
 
 function PopupBody(props : {feature : Feature}) {
