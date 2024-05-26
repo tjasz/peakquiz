@@ -1,6 +1,36 @@
 {
   "geoquiz": {
-    "items": "peaks"
+    "items": "peaks",
+    "properties": [
+      {
+        "name": "prominence",
+        "level": "rational"
+      },
+      {
+        "name": "elevation",
+        "level": "ordinal"
+      },
+      {
+        "name": "firstAscent",
+        "level": "ordinal"
+      },
+      {
+        "name": "county",
+        "level": "nominal"
+      },
+      {
+        "name": "national park",
+        "level": "nominal"
+      },
+      {
+        "name": "wilderness",
+        "level": "nominal"
+      },
+      {
+        "name": "forest",
+        "level": "nominal"
+      }
+    ]
   },
   "type": "FeatureCollection",
   "features": [

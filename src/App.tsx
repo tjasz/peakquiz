@@ -7,9 +7,14 @@ import L, { LatLng, LatLngTuple } from 'leaflet';
 import { Feature, FeatureCollection } from 'geojson';
 import iso3166 from 'iso-3166-2';
 
+type PropertyDefinition = {
+  name: string;
+  level: "nominal" | "ordinal" | "rational";
+};
 type GeoquizParameters = {
   items?: string;
-}
+  properties: PropertyDefinition[];
+};
 
 // TODO make ignored words configurable in the file
 const ignoredWords = ["peak", "mount", "mountain", "mt", "mont", "monte", "montana", "pico", "de", "volcano", "volcan", "la", "el", "the"];
@@ -245,13 +250,17 @@ function App() {
         </MapContainer>
       </div>
       <p>
-        TODO make this message abstract -- 
         You have named {correct.size} ({Math.round(correct.size / data.features.length * 100)}%)
-        of {data.features.length} {data.geoquiz?.items ?? "features"},
-        accounting for {Math.round(correctProminence / totalProminence * 100)}%
-        of the total prominence.
+        of {data.features.length} {data.geoquiz?.items ?? "features"}.
       </p>
       <div id="result-container">
+        {data.geoquiz?.properties.filter(p => p.level === "rational").map(p => (
+          <RationalPropertyView
+          correct={Array.from(correct)}
+          all={data.features}
+          property={p.name}
+          />
+        ))}
         <GuessesView guesses={Array.from(guesses)} />
         <FilteredCorrectView
           correct={Array.from(correct)}
@@ -260,6 +269,24 @@ function App() {
       </div>
     </div>
   );
+}
+
+function RationalPropertyView(props : {
+  correct : Feature[],
+  all : Feature[],
+  property: string,
+  })
+{
+  const total = props.all.reduce((sum, feature) => sum + feature.properties?.[props.property], 0);
+  const sumCorrect = props.correct.reduce((sum, feature) => sum + feature.properties?.[props.property], 0);
+  const percentage = Math.round(sumCorrect / total * 100);
+
+  // TODO include ranking of top correct ones and number of top "all" that were guessed
+  // both ascending and descending
+  return <div>
+    <h3>{props.property}</h3>
+    {total > 0 ? <p>Correct guesses account for {percentage}% of the total {props.property}.</p> : null}
+  </div>
 }
 
 function GuessesView(props: {guesses : string[]}) {
