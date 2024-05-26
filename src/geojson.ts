@@ -20,9 +20,10 @@ export type LineStringCoordinates = Coordinate[];
 export type MultiLineStringCoordinates = LineStringCoordinates[];
 export type PolygonCoordinates = Coordinate[][];
 export type MultiPolygonCoordinates = PolygonCoordinates[];
+export type BoundingBox = [number, number, number, number];
 
 // allow additional string keys to map to any type
-type Extension = {[index: string]: any}
+type Extension = {id?: string | number, bbox?: BoundingBox, [index: string]: any}
 
 export type Point = Extension & {
   type: GeometryType;
