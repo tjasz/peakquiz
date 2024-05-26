@@ -7,6 +7,10 @@ import L, { LatLng, LatLngTuple } from 'leaflet';
 import { Feature, FeatureCollection } from 'geojson';
 import iso3166 from 'iso-3166-2';
 
+type GeoquizParameters = {
+  items?: string;
+}
+
 // TODO make ignored words configurable in the file
 const ignoredWords = ["peak", "mount", "mountain", "mt", "mont", "monte", "montana", "pico", "de", "volcano", "volcan", "la", "el", "the"];
 
@@ -23,7 +27,7 @@ const normalize = (s : string) => s.trim().toLowerCase().normalize("NFKD").repla
 
 function isMatch(guess : string, answer : Feature) : boolean {
   const guessNormalized = normalize(guess);
-  // TODO make matching field(s) configurable in the file
+  // TODO make matching field(s)/expression configurable in the file
   const answerNormalized = normalize(answer.properties?.["title"]);
   return guessNormalized === answerNormalized;
 }
@@ -70,7 +74,7 @@ function App() {
     return new Set(initialValue);
   });
   const [correct, setCorrect] = useState<Set<Feature>>(new Set<Feature>());
-  const [data, setData] = useState<FeatureCollection>();
+  const [data, setData] = useState<FeatureCollection & {geoquiz?: GeoquizParameters}>();
   const correctFeatures : FeatureCollection = {
     type: "FeatureCollection",
     features: Array.from(correct),
@@ -102,7 +106,7 @@ function App() {
       return;
     }
     // TODO switch the default file to something I have a license for
-    fetch(`json/${fname ?? "world"}.json`,{
+    fetch(`json/${fname ?? "test"}.json`,{
         headers : {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
@@ -215,13 +219,7 @@ function App() {
         <a href="?" className="App-link">GeoQuiz</a>
       </header>
       <p>
-        TODO make this message abstract -- 
-        How many of the <span className="highlighted">{data.features.length}</span> peaks
-        {elevation !== null ? <> above <span className="highlighted">{elevation}</span> feet</> : null}
-        {prominence !== null ? <> with <span className="highlighted">{prominence}</span> feet of prominence</> : null}
-        {countries.length > 0 ? <> in <span className="highlighted">{countries.join(", ")}</span></> : null}
-        {states.length > 0 ? <> in <span className="highlighted">{states.join(", ")}</span></> : null}
-        &nbsp;can you name?
+        How many of the <span className="highlighted">{data.features.length}</span> {data.geoquiz?.items ?? "features"} can you name?
       </p>
       <form onSubmit={handleSubmit}>
         <label htmlFor={id}>Guess:</label>
@@ -249,7 +247,7 @@ function App() {
       <p>
         TODO make this message abstract -- 
         You have named {correct.size} ({Math.round(correct.size / data.features.length * 100)}%)
-        of {data.features.length} peaks,
+        of {data.features.length} {data.geoquiz?.items ?? "features"},
         accounting for {Math.round(correctProminence / totalProminence * 100)}%
         of the total prominence.
       </p>

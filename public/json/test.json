@@ -1,4 +1,7 @@
 {
+  "geoquiz": {
+    "items": "peaks"
+  },
   "type": "FeatureCollection",
   "features": [
     {
