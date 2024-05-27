@@ -1,6 +1,7 @@
 {
   "geoquiz": {
     "items": "peaks",
+    "title": "title",
     "properties": [
       {
         "name": "prominence",

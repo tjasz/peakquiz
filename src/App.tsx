@@ -13,6 +13,7 @@ type PropertyDefinition = {
 };
 type GeoquizParameters = {
   items?: string;
+  title: string;
   properties: PropertyDefinition[];
 };
 
@@ -221,6 +222,7 @@ function App() {
       <div id="result-container">
         {data.geoquiz?.properties.filter(p => p.level === "rational").map(p => (
           <RationalPropertyView
+          config={data.geoquiz}
           correct={Array.from(correct)}
           all={data.features}
           property={p.name}
@@ -236,7 +238,14 @@ function App() {
   );
 }
 
+function sortBy(features : Feature[], property : string, asc : boolean = true) {
+  return [...features].sort(
+    (a, b) => (a.properties?.[property] - b.properties?.[property]) * (asc ? 1 : -1)
+  );
+}
+
 function RationalPropertyView(props : {
+  config? : GeoquizParameters,
   correct : Feature[],
   all : Feature[],
   property: string,
@@ -251,7 +260,25 @@ function RationalPropertyView(props : {
   return <div>
     <h3>{props.property}</h3>
     {total > 0 ? <p>Correct guesses account for {percentage}% of the total {props.property}.</p> : null}
+    <RankedList config={props.config} correct={props.correct} property={props.property} />
   </div>
+}
+
+function RankedList(props : {
+  config? : GeoquizParameters,
+  correct : Feature[],
+  property: string,
+  }) {
+  return (
+    <div>
+      <h4>{props.config?.items ?? "Features"} with highest {props.property}:</h4>
+      <ul>
+        {sortBy(props.correct, props.property, false).slice(0,10).map((feature, idx) => (
+          <ul key={idx}>{feature.properties?.[props.config?.title ?? "title"]} ({feature.properties?.[props.property]})</ul>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 function GuessesView(props: {guesses : string[]}) {
