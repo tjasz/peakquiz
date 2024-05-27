@@ -218,6 +218,7 @@ function App() {
       <div id="result-container">
         {data.geoquiz?.properties.filter(p => p.level === "rational").map(p => (
           <RationalPropertyView
+          key={p.name}
           config={data.geoquiz}
           correct={Array.from(correct)}
           all={data.features}
@@ -226,6 +227,7 @@ function App() {
         ))}
         {data.geoquiz?.properties.filter(p => p.level === "ordinal").map(p => (
           <OrdinalPropertyView
+          key={p.name}
           config={data.geoquiz}
           correct={Array.from(correct)}
           all={data.features}
