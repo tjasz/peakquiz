@@ -1,4 +1,38 @@
 {
+  "geoquiz": {
+    "items": "peaks",
+    "title": "title",
+    "properties": [
+      {
+        "name": "prominence",
+        "level": "rational"
+      },
+      {
+        "name": "elevation",
+        "level": "ordinal"
+      },
+      {
+        "name": "firstAscent",
+        "level": "ordinal"
+      },
+      {
+        "name": "county",
+        "level": "nominal"
+      },
+      {
+        "name": "national park",
+        "level": "nominal"
+      },
+      {
+        "name": "wilderness",
+        "level": "nominal"
+      },
+      {
+        "name": "forest",
+        "level": "nominal"
+      }
+    ]
+  },
   "type": "FeatureCollection",
   "features": [
     {
@@ -9,8 +43,8 @@
       },
       "properties": {
         "title": "Rainier, Mount",
-        "elevation": "14410",
-        "prominence": "13262",
+        "elevation": 14410,
+        "prominence": 13262,
         "firstAscent": "1870-08-17",
         "county": "Pierce",
         "national park": "Mount Rainier",
@@ -27,8 +61,8 @@
       },
       "properties": {
         "title": "Baker, Mount",
-        "elevation": "10781",
-        "prominence": "8846",
+        "elevation": 10781,
+        "prominence": 8846,
         "firstAscent": "1868-08-17",
         "county": "Whatcom",
         "national park": "",
@@ -45,8 +79,8 @@
       },
       "properties": {
         "title": "Adams, Mount",
-        "elevation": "12276",
-        "prominence": "8136",
+        "elevation": 12276,
+        "prominence": 8136,
         "firstAscent": "1854-08",
         "county": "Yakima",
         "national park": "",
@@ -63,8 +97,8 @@
       },
       "properties": {
         "title": "Olympus, Mount",
-        "elevation": "7969",
-        "prominence": "7838",
+        "elevation": 7969,
+        "prominence": 7838,
         "firstAscent": "1907-08-12",
         "county": "Jefferson",
         "national park": "Olympic",
@@ -81,8 +115,8 @@
       },
       "properties": {
         "title": "Glacier Peak",
-        "elevation": "10540",
-        "prominence": "7520",
+        "elevation": 10540,
+        "prominence": 7520,
         "firstAscent": "1898",
         "county": "Snohomish",
         "national park": "",
@@ -99,8 +133,8 @@
       },
       "properties": {
         "title": "Stuart, Mount",
-        "elevation": "9415",
-        "prominence": "5359",
+        "elevation": 9415,
+        "prominence": 5359,
         "firstAscent": "1873",
         "county": "Chelan",
         "national park": "",
@@ -117,8 +151,8 @@
       },
       "properties": {
         "title": "Abercrombie Mountain",
-        "elevation": "7308",
-        "prominence": "5178",
+        "elevation": 7308,
+        "prominence": 5178,
         "county": "Stevens",
         "national park": "",
         "wilderness": "",
@@ -134,8 +168,8 @@
       },
       "properties": {
         "title": "Round Mountain",
-        "elevation": "5320",
-        "prominence": "4780",
+        "elevation": 5320,
+        "prominence": 4780,
         "county": "Skagit",
         "national park": "",
         "wilderness": "",
@@ -151,8 +185,8 @@
       },
       "properties": {
         "title": "Spickard, Mount",
-        "elevation": "8979",
-        "prominence": "4779",
+        "elevation": 8979,
+        "prominence": 4779,
         "firstAscent": "1904",
         "county": "Whatcom",
         "national park": "North Cascades",
@@ -169,8 +203,8 @@
       },
       "properties": {
         "title": "Copper Butte",
-        "elevation": "7140",
-        "prominence": "4740",
+        "elevation": 7140,
+        "prominence": 4740,
         "county": "Ferry",
         "national park": "",
         "wilderness": "",
@@ -186,8 +220,8 @@
       },
       "properties": {
         "title": "Saint Helens, Mount",
-        "elevation": "8333",
-        "prominence": "4573",
+        "elevation": 8333,
+        "prominence": 4573,
         "firstAscent": "1853-08-26",
         "county": "Skamania",
         "national park": "",
