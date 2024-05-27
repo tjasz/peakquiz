@@ -248,7 +248,11 @@ function App() {
 
 function sortBy(features : Feature[], property : string, asc : boolean = true) {
   return [...features].sort(
-    (a, b) => (a.properties?.[property] - b.properties?.[property]) * (asc ? 1 : -1)
+    (a, b) => {
+      const ap = a.properties?.[property];
+      const bp = b.properties?.[property];
+      return (asc ? 1 : -1) * (ap === bp ? 0 : ap < bp ? -1 : 1);
+    }
   );
 }
 
@@ -296,7 +300,7 @@ function RankedList(props : {
     <div>
       <h4>{props.config?.items ?? "Features"} with highest {props.property}:</h4>
       <ul>
-        {sortBy(props.correct, props.property, false).slice(0,10).map((feature, idx) => (
+        {sortBy(props.correct.filter(f => f.properties?.[props.property] !== undefined), props.property, false).slice(0,10).map((feature, idx) => (
           <ul key={idx}>{feature.properties?.[props.config?.title ?? "title"]} ({feature.properties?.[props.property]})</ul>
         ))}
       </ul>
