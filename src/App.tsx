@@ -18,7 +18,7 @@ type GeoquizParameters = {
 };
 
 // TODO make ignored words configurable in the file
-const ignoredWords = ["peak", "mount", "mountain", "mt", "mont", "monte", "montana", "pico", "de", "volcano", "volcan", "la", "el", "the"];
+const ignoredWords = ["peak", "mount", "mountain", "mt", "mont", "monte", "montana", "pico", "de", "volcano", "volcan", "la", "el", "the", "wilderness"];
 
 const normalize = (s : string) => s.trim().toLowerCase().normalize("NFKD").replace(/[^a-z0-9\s]+/g, "").split(/\s+/).filter(
   part => !ignoredWords.includes(part)
