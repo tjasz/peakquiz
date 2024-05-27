@@ -20,6 +20,8 @@ type GeoquizParameters = {
   ignoredWords?: string[];
   titleProperty?: string;
   altTitleProperties?: string[];
+  radiusProperty?: string;
+  radiusPropertyScale?: number;
   properties?: PropertyDefinition[];
 };
 
@@ -514,7 +516,6 @@ const StateMap = (props : { geojson : FeatureCollection, config? : GeoquizParame
     }
   }, [geoJsonRef, props.geojson])
 
-  // TODO make the symbology come from the file
   return (
     <GeoJSON
       ref={geoJsonRef}
@@ -522,7 +523,7 @@ const StateMap = (props : { geojson : FeatureCollection, config? : GeoquizParame
       pointToLayer={(feature, latlng) =>
         new L.CircleMarker(
           latlng,
-          {radius: 1 + parseInt(feature.properties?.["prominenceFt"] ?? 0) / 1000}
+          {radius: 1 + parseInt(feature.properties?.[props.config?.radiusProperty ?? "radius"] ?? 0) / (props.config?.radiusPropertyScale ?? 1)}
         )}
       onEachFeature={(feature, layer) => {
         layer.bindPopup(
