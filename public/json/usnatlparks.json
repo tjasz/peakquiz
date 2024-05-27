@@ -4,7 +4,7 @@
     "items": "U.S. National Parks",
     "source": "U.S. National Parks Service",
     "sourceUrl": "https://public-nps.opendata.arcgis.com/datasets/nps-boundary-1/explore",
-    "ignoredWords": ["national", "park"],
+    "ignoredWords": ["national", "park", "and", "preserve"],
     "titleProperty": "UNIT_NAME",
     "properties": [
       {
