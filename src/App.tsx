@@ -221,6 +221,7 @@ function App() {
         <MapContainer
           ref={mapRef}
           whenReady={() => resizeMap(mapRef)}
+          zoomSnap={0}
           >
           <LayersControl position="topright">
             <LayersControl.BaseLayer name="TNM Blank" checked>
