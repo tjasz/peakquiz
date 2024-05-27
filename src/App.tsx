@@ -16,27 +16,26 @@ type GeoquizParameters = {
   titleProperty: string;
   source?: string;
   sourceUrl?: string;
+  ignoredWords?: string[];
   properties: PropertyDefinition[];
 };
 
-// TODO make ignored words configurable in the file
-const ignoredWords = ["peak", "mount", "mountain", "mt", "mont", "monte", "montana", "pico", "de", "volcano", "volcan", "la", "el", "the", "wilderness"];
+const normalize = (s : string, ignoredWords : string[]) =>
+  s.trim().toLowerCase().normalize("NFKD").replace(/[^a-z0-9\s]+/g, "").split(/\s+/).filter(
+    part => !ignoredWords.includes(part)
+  ).map(part => {
+    // TODO define more abbreviations
+    if (part === "saint") {
+      return "st";
+    }
+    return part;
+  })
+  .join(" ");
 
-const normalize = (s : string) => s.trim().toLowerCase().normalize("NFKD").replace(/[^a-z0-9\s]+/g, "").split(/\s+/).filter(
-  part => !ignoredWords.includes(part)
-).map(part => {
-  // TODO define more abbreviations
-  if (part === "saint") {
-    return "st";
-  }
-  return part;
-})
-.join(" ");
-
-function isMatch(guess : string, answer : Feature, titleProperty : string) : boolean {
-  const guessNormalized = normalize(guess);
+function isMatch(guess : string, answer : Feature, titleProperty : string, ignoredWords : string[]) : boolean {
+  const guessNormalized = normalize(guess, ignoredWords);
   // TODO make matching field(s)/expression configurable in the file
-  const answerNormalized = normalize(answer.properties?.[titleProperty]);
+  const answerNormalized = normalize(answer.properties?.[titleProperty], ignoredWords);
   return guessNormalized === answerNormalized;
 }
 
@@ -120,7 +119,12 @@ function App() {
           const features = result.features;
           // set any correct guesses
           const answers = Array.from(guesses).reduce<Feature[]>((acc, guess) => {
-            const answersForGuess = features.filter((feature:Feature) => isMatch(guess, feature, result?.geoquiz?.titleProperty ?? "title"));
+            const answersForGuess = features.filter((feature:Feature) => isMatch(
+              guess,
+              feature,
+              result?.geoquiz?.titleProperty ?? "title",
+              result?.geoquiz?.ignoredWords ?? []
+            ));
             return [...acc, ...answersForGuess];
           }, []);
           if (answers && answers.length) {
@@ -149,7 +153,12 @@ function App() {
     ev.preventDefault();
     if (draft && !guesses.has(draft)) {
       setGuesses(new Set([draft, ...guesses.values()]));
-      const answers = data?.features.filter(v => isMatch(draft, v, data?.geoquiz?.titleProperty ?? "title"))
+      const answers = data?.features.filter(v => isMatch(
+        draft,
+        v,
+        data?.geoquiz?.titleProperty ?? "title",
+        data?.geoquiz?.ignoredWords ?? []
+      ))
       if (answers && answers.length) {
         setCorrect(new Set([...answers, ...correct.values()]));
         setDraft(null);
