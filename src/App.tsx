@@ -443,14 +443,12 @@ const StateMap = (props : { geojson : FeatureCollection }) => {
   )
 }
 
-// TODO make these popup fields come from the file
-const notableFields = ["title", "country", "usState", "elevationFt", "prominenceFt", "isolationMi", "orsMeters", "peakbaggerUrl"];
-
 function PopupBody(props : {feature : Feature}) {
+  // TODO order and filter the fields here
   return (
     <div style={{height: "150px", overflow: "auto"}}>
     <table><tbody>
-      {notableFields.map((key) => {
+      {Object.keys(props.feature.properties ?? {}).map((key) => {
         const value = props.feature.properties?.[key];
         return <tr key={key}>
         <th>{key}</th>
