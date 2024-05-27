@@ -420,7 +420,6 @@ const StateMap = (props : { geojson : FeatureCollection }) => {
   }, [geoJsonRef, props.geojson])
 
   // TODO make the symbology come from the file
-  // TODO bind popup to non-point features
   return (
     <GeoJSON
       ref={geoJsonRef}
@@ -431,10 +430,14 @@ const StateMap = (props : { geojson : FeatureCollection }) => {
           {radius: 1 + parseInt(feature.properties?.["prominenceFt"]) / 1000}
         );
         marker.bindTooltip(`${feature.properties?.["title"]} (P${parseInt(feature.properties?.["prominenceFt"])}ft)`);
-        marker.bindPopup(ReactDOMServer.renderToString(
-          <PopupBody feature={feature} />
-      ))
         return marker;
+      }}
+      onEachFeature={(feature, layer) => {
+        layer.bindPopup(
+          ReactDOMServer.renderToString(
+              <PopupBody feature={feature} />
+          )
+        )
       }}
     />
   )
