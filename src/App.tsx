@@ -180,10 +180,6 @@ function App() {
     </div>
   }
 
-  // TODO make the binning, summing, and ranking properties configurable
-  const totalProminence = data.features.reduce((acc, curr) => acc + parseInt(curr.properties?.["prominenceFt"]), 0);
-  const correctProminence = Array.from(correct).reduce((acc, curr) => acc + parseInt(curr.properties?.["prominenceFt"]), 0);
-
   return (
     <div className="App">
       <header className="App-header">
