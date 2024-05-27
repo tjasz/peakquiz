@@ -13,7 +13,9 @@ type PropertyDefinition = {
 };
 type GeoquizParameters = {
   items?: string;
-  title: string;
+  titleProperty: string;
+  source?: string;
+  sourceUrl?: string;
   properties: PropertyDefinition[];
 };
 
@@ -31,10 +33,10 @@ const normalize = (s : string) => s.trim().toLowerCase().normalize("NFKD").repla
 })
 .join(" ");
 
-function isMatch(guess : string, answer : Feature, title : string) : boolean {
+function isMatch(guess : string, answer : Feature, titleProperty : string) : boolean {
   const guessNormalized = normalize(guess);
   // TODO make matching field(s)/expression configurable in the file
-  const answerNormalized = normalize(answer.properties?.[title]);
+  const answerNormalized = normalize(answer.properties?.[titleProperty]);
   return guessNormalized === answerNormalized;
 }
 
@@ -120,7 +122,7 @@ function App() {
           const features = result.features;
           // set any correct guesses
           const answers = Array.from(guesses).reduce<Feature[]>((acc, guess) => {
-            const answersForGuess = features.filter((feature:Feature) => isMatch(guess, feature, result?.geoquiz?.title ?? "title"));
+            const answersForGuess = features.filter((feature:Feature) => isMatch(guess, feature, result?.geoquiz?.titleProperty ?? "title"));
             return [...acc, ...answersForGuess];
           }, []);
           if (answers && answers.length) {
@@ -149,7 +151,7 @@ function App() {
     ev.preventDefault();
     if (draft && !guesses.has(draft)) {
       setGuesses(new Set([draft, ...guesses.values()]));
-      const answers = data?.features.filter(v => isMatch(draft, v, data?.geoquiz?.title ?? "title"))
+      const answers = data?.features.filter(v => isMatch(draft, v, data?.geoquiz?.titleProperty ?? "title"))
       if (answers && answers.length) {
         setCorrect(new Set([...answers, ...correct.values()]));
         setDraft(null);
@@ -208,7 +210,7 @@ function App() {
           </LayersControl>
           <ChangeView />
           <ScaleControl position="bottomleft" />
-          <StateMap geojson={correctFeatures} />
+          <StateMap geojson={correctFeatures} config={data.geoquiz} />
         </MapContainer>
       </div>
       <p>
@@ -367,7 +369,7 @@ function RankedList(props : {
       </p>
       <ul>
         {highestCorrectTen.map((feature, idx) => (
-          <li key={idx}>{feature.properties?.[props.config?.title ?? "title"]} ({feature.properties?.[props.property]})</li>
+          <li key={idx}>{feature.properties?.[props.config?.titleProperty ?? "title"]} ({feature.properties?.[props.property]})</li>
         ))}
       </ul>
       <h4>Named {props.config?.items ?? "features"} with lowest {props.property}:</h4>
@@ -379,7 +381,7 @@ function RankedList(props : {
       </p>
       <ul>
         {lowestCorrectTen.map((feature, idx) => (
-          <li key={idx}>{feature.properties?.[props.config?.title ?? "title"]} ({feature.properties?.[props.property]})</li>
+          <li key={idx}>{feature.properties?.[props.config?.titleProperty ?? "title"]} ({feature.properties?.[props.property]})</li>
         ))}
       </ul>
     </div>
@@ -462,7 +464,7 @@ function ChangeView() : null {
   return null;
 }
 
-const StateMap = (props : { geojson : FeatureCollection }) => {
+const StateMap = (props : { geojson : FeatureCollection, config? : GeoquizParameters }) => {
   // get a ref to the underlying L.geoJSON
   const geoJsonRef = useRef<L.GeoJSON>(null)
 
@@ -479,20 +481,18 @@ const StateMap = (props : { geojson : FeatureCollection }) => {
     <GeoJSON
       ref={geoJsonRef}
       data={props.geojson}
-      pointToLayer={(feature, latlng) => {
-        const marker = new L.CircleMarker(
+      pointToLayer={(feature, latlng) =>
+        new L.CircleMarker(
           latlng,
           {radius: 1 + parseInt(feature.properties?.["prominenceFt"]) / 1000}
-        );
-        marker.bindTooltip(`${feature.properties?.["title"]} (P${parseInt(feature.properties?.["prominenceFt"])}ft)`);
-        return marker;
-      }}
+        )}
       onEachFeature={(feature, layer) => {
         layer.bindPopup(
           ReactDOMServer.renderToString(
               <PopupBody feature={feature} />
           )
-        )
+        );
+        layer.bindTooltip(feature.properties?.[props.config?.titleProperty ?? "title"]);
       }}
     />
   )
