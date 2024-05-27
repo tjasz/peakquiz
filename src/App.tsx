@@ -31,10 +31,10 @@ const normalize = (s : string) => s.trim().toLowerCase().normalize("NFKD").repla
 })
 .join(" ");
 
-function isMatch(guess : string, answer : Feature) : boolean {
+function isMatch(guess : string, answer : Feature, title : string) : boolean {
   const guessNormalized = normalize(guess);
   // TODO make matching field(s)/expression configurable in the file
-  const answerNormalized = normalize(answer.properties?.["title"]);
+  const answerNormalized = normalize(answer.properties?.[title]);
   return guessNormalized === answerNormalized;
 }
 
@@ -120,7 +120,7 @@ function App() {
           const features = result.features;
           // set any correct guesses
           const answers = Array.from(guesses).reduce<Feature[]>((acc, guess) => {
-            const answersForGuess = features.filter((feature:Feature) => isMatch(guess, feature));
+            const answersForGuess = features.filter((feature:Feature) => isMatch(guess, feature, result?.geoquiz?.title ?? "title"));
             return [...acc, ...answersForGuess];
           }, []);
           if (answers && answers.length) {
@@ -149,7 +149,7 @@ function App() {
     ev.preventDefault();
     if (draft && !guesses.has(draft)) {
       setGuesses(new Set([draft, ...guesses.values()]));
-      const answers = data?.features.filter(v => isMatch(draft, v))
+      const answers = data?.features.filter(v => isMatch(draft, v, data?.geoquiz?.title ?? "title"))
       if (answers && answers.length) {
         setCorrect(new Set([...answers, ...correct.values()]));
         setDraft(null);
