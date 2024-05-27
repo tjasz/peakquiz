@@ -3,9 +3,11 @@ import ReactDOMServer from "react-dom/server";
 import { useSearchParams } from "react-router-dom";
 import './App.css';
 import { GeoJSON, LayersControl, MapContainer, ScaleControl, WMSTileLayer, useMap, useMapEvents } from 'react-leaflet';
-import L, { LatLng, LatLngTuple } from 'leaflet';
+import L, { LatLng, LatLngBoundsLiteral, LatLngTuple } from 'leaflet';
 import { Feature, FeatureCollection } from 'geojson';
+import bbox from '@turf/bbox'
 import iso3166 from 'iso-3166-2';
+import { BBox } from '@turf/helpers';
 
 type PropertyDefinition = {
   name: string;
@@ -228,7 +230,7 @@ function App() {
               <WMSTileLayer {...overlay} />
             </LayersControl.Overlay>
           </LayersControl>
-          <ChangeView />
+          <ChangeView features={data} />
           <ScaleControl position="bottomleft" />
           <StateMap geojson={correctFeatures} config={data.geoquiz} />
         </MapContainer>
@@ -476,8 +478,12 @@ function FilteredCorrectView(props : {
     </div>
   }
 
-function ChangeView() : null {
-  const [urlParams, setUrlParams] = useSearchParams();
+function bboxToLatLngBounds(bbox : BBox) : LatLngBoundsLiteral {
+  const len = bbox.length;
+  return [[bbox[0], bbox[1]], [bbox[len/2], bbox[len/2 + 1]]];
+}
+
+function ChangeView(props : { features : FeatureCollection }) : null {
   const [center, setCenter] = useState<LatLng|null>(null);
   const [zoom, setZoom] = useState<number|null>(null);
   const map = useMap();
@@ -489,12 +495,8 @@ function ChangeView() : null {
           setCenter(mapEvents.getCenter());
       },
   });
-  // TODO make the default map view configurable in the file
   if (!center && !zoom) {
-    map.setView(
-      urlParams.get("ll")?.split(",").map(s => parseFloat(s)) as LatLngTuple ?? [38.56347, -98.39355],
-      parseInt(urlParams.get("z") ?? "5")
-    );
+    map.fitBounds(bboxToLatLngBounds(bbox(props.features)));
   }
   return null;
 }
@@ -534,7 +536,6 @@ const StateMap = (props : { geojson : FeatureCollection, config? : GeoquizParame
 }
 
 function PopupBody(props : {feature : Feature}) {
-  // TODO order and filter the fields here
   return (
     <div style={{height: "150px", overflow: "auto"}}>
     <table><tbody>
