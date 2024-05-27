@@ -117,7 +117,6 @@ function App() {
       .then(res => res.json())
       .then(
         (result) => {
-          // TODO filter features according to URL params?
           const features = result.features;
           // set any correct guesses
           const answers = Array.from(guesses).reduce<Feature[]>((acc, guess) => {
@@ -128,7 +127,7 @@ function App() {
             setCorrect(new Set([...answers, ...correct.values()]));
           }
           // set the data
-          setData({...result, features});
+          setData(result);
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
