@@ -234,6 +234,15 @@ function App() {
           property={p.name}
           />
         ))}
+        {data.geoquiz?.properties.filter(p => p.level === "nominal").map(p => (
+          <NominalPropertyView
+          key={p.name}
+          config={data.geoquiz}
+          correct={Array.from(correct)}
+          all={data.features}
+          property={p.name}
+          />
+        ))}
         <GuessesView guesses={Array.from(guesses)} />
         <FilteredCorrectView
           correct={Array.from(correct)}
@@ -242,6 +251,52 @@ function App() {
       </div>
     </div>
   );
+}
+
+function NominalPropertyView(props : {
+  config? : GeoquizParameters,
+  correct : Feature[],
+  all : Feature[],
+  property: string,
+  })
+{
+  const bins = new Set(
+    props.all.map(f => f.properties?.[props.property])
+  );
+
+  const binCounts = new Map<any, number>();
+  for (const bin of bins) {
+    binCounts.set(bin, 0);
+  }
+  for (const f of props.all) {
+    const val = f.properties?.[props.property];
+    binCounts.set(val, (binCounts.get(val) ?? 0) + 1)
+  }
+
+  const correctBinCounts = new Map<any, number>();
+  for (const bin of bins) {
+    correctBinCounts.set(bin, 0);
+  }
+  for (const f of props.correct) {
+    const val = f.properties?.[props.property];
+    correctBinCounts.set(val, (correctBinCounts.get(val) ?? 0) + 1)
+  }
+
+  return <div>
+    <h3>{props.property}</h3>
+    <p>
+      Named {props.config?.items ?? "features"} cover {Array.from(correctBinCounts.entries()).filter(([key, value]) => value > 0).length} of {Array.from(binCounts.keys()).length} values.
+    </p>
+    <ul>
+      {Array.from(binCounts.keys()).map((key) => {
+        const correct = correctBinCounts.get(key) ?? 0;
+        const total = binCounts.get(key) ?? 0;
+        return <li>
+          <strong>{key}</strong>: {correct} of {total} ({Math.round(100 * correct / total)}%)
+        </li>
+      })}
+    </ul>
+  </div>
 }
 
 function sortBy(features : Feature[], property : string, asc : boolean = true) {
