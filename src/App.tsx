@@ -294,18 +294,38 @@ function RankedList(props : {
   property: string,
   })
 {
-  // TODO include "x of the Y top Features"
+  const definedCorrect = props.correct.filter(f => f.properties?.[props.property] !== undefined);
+  const definedAll = props.all.filter(f => f.properties?.[props.property] !== undefined);
+
+  const lowestCorrectTen = sortBy(definedCorrect, props.property).slice(0,10);
+  const highestCorrectTen = sortBy(definedCorrect, props.property, false).slice(0,10);
+
+  const lowestOverallTenCutoff = sortBy(definedAll, props.property)[Math.min(9, definedAll.length-1)]?.properties?.[props.property];
+  const highestOverallTenCutoff = sortBy(definedAll, props.property, false)[Math.min(9, definedAll.length-1)]?.properties?.[props.property];
+
   return (
     <div>
-      <h4>Named {props.config?.items ?? "Features"} with highest {props.property}:</h4>
+      <h4>Named {props.config?.items ?? "features"} with highest {props.property}:</h4>
+      <p>
+        Includes
+        &nbsp;{definedCorrect.filter(feature => feature.properties?.[props.property] >= highestOverallTenCutoff).length}
+        &nbsp;of the top
+        &nbsp;{definedAll.filter(feature => feature.properties?.[props.property] >= highestOverallTenCutoff).length}.
+      </p>
       <ul>
-        {sortBy(props.correct.filter(f => f.properties?.[props.property] !== undefined), props.property, false).slice(0,10).map((feature, idx) => (
+        {highestCorrectTen.map((feature, idx) => (
           <li key={idx}>{feature.properties?.[props.config?.title ?? "title"]} ({feature.properties?.[props.property]})</li>
         ))}
       </ul>
-      <h4>Named {props.config?.items ?? "Features"} with lowest {props.property}:</h4>
+      <h4>Named {props.config?.items ?? "features"} with lowest {props.property}:</h4>
+      <p>
+        Includes
+        &nbsp;{definedCorrect.filter(feature => feature.properties?.[props.property] <= lowestOverallTenCutoff).length}
+        &nbsp;of the bottom
+        &nbsp;{definedAll.filter(feature => feature.properties?.[props.property] <= lowestOverallTenCutoff).length}.
+      </p>
       <ul>
-        {sortBy(props.correct.filter(f => f.properties?.[props.property] !== undefined), props.property).slice(0,10).map((feature, idx) => (
+        {lowestCorrectTen.map((feature, idx) => (
           <li key={idx}>{feature.properties?.[props.config?.title ?? "title"]} ({feature.properties?.[props.property]})</li>
         ))}
       </ul>
