@@ -251,8 +251,23 @@ function App() {
           all={data.features}
           />
       </div>
+      <SourceAttribution config={data.geoquiz} />
     </div>
   );
+}
+
+function SourceAttribution(props : {config : GeoquizParameters | undefined}) {
+  if (props.config?.source === undefined) return null;
+
+  return <div id="source-attribution">
+      <p>
+      Data courtesy of {
+        props.config.sourceUrl === undefined
+          ? props.config.source 
+          : <a href={props.config.sourceUrl}>{props.config.source}</a>
+        }.
+    </p>
+  </div>
 }
 
 function NominalPropertyView(props : {

@@ -65,3 +65,9 @@
   margin: 5px;
   border: 1px solid black;
 }
+
+#source-attribution {
+  width: 100vw;
+  clear: both;
+  font-style: italic;
+}
