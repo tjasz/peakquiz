@@ -166,15 +166,7 @@ function App() {
       <div>
         <h3>Select a quiz:</h3>
         <ul>
-          <li><a href="?p=300&z=2&ll=50.85707%2C52.38281">World Peaks</a></li>
-          <li><a href="?e=26246&p=1000&z=2&ll=50.85707%2C52.38281">World 8000m Peaks</a></li>
-          <li><a href="?e=19685&z=2&ll=50.85707%2C52.38281">World 6000m Peaks</a></li>
-          <li><a href="?c=ca,us,mx&z=3&ll=50.35023%2C-103.88672">North America Peaks</a></li>
-          <li><a href="?f=us&c=us&z=3&ll=50.35023%2C-103.88672">United States Peaks</a></li>
-          <li><a href="?f=us&s=wa,or,ca,nv,id,mt,wy,ut,co,az,nm&z=5&ll=40.26292%2C-108.19336">Western Contiguous United States Peaks</a></li>
-          <li><a href="?f=us&s=me,nh,vt,ma,ct,ri&z=6&ll=43.58783%2C-68.95020">New England Peaks</a></li>
-          <li><a href="?f=wa&s=wa&p=400&z=7&ll=47.35541%2C-120.81116">Washington Peaks</a></li>
-          <li><a href="?f=us&s=vt&z=8&ll=43.79677%2C-71.83411">Vermont Peaks</a></li>
+          <li><a href="?f=uswild">U.S. Wilderness Areas</a></li>
         </ul>
       </div>
     </div>
