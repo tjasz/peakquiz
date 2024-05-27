@@ -1,0 +1,1030 @@
+{
+  "type": "FeatureCollection",
+  "geoquiz": {
+    "items": "Seattle Hills",
+    "ignoredWords": ["hill"],
+    "titleProperty": "name",
+    "radiusProperty": "prominence",
+    "radiusPropertyScale": 15,
+    "properties": [
+      {
+        "name": "prominence",
+        "level": "rational"
+      },
+      {
+        "name": "elevation",
+        "level": "ordinal"
+      }
+    ]
+  },
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3551,
+          47.6316
+        ]
+      },
+      "id": "4ab1ccbe-4387-4ffa-91a2-2cef8ee949ec",
+      "type": "Feature",
+      "properties": {
+        "prominence": 400,
+        "elevation": 470,
+        "name": "Queen Anne"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.4078,
+          47.6467
+        ]
+      },
+      "id": "2b5782ba-8ce1-4ac7-b3f1-38d84a0297fb",
+      "type": "Feature",
+      "properties": {
+        "prominence": 350,
+        "elevation": 390,
+        "name": "Magnolia"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3145,
+          47.6289
+        ]
+      },
+      "id": "f8503ece-ced3-46cd-9b24-41f33d8bce61",
+      "type": "Feature",
+      "properties": {
+        "prominence": 320,
+        "elevation": 450,
+        "name": "Capitol"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3086,
+          47.5664
+        ]
+      },
+      "id": "c6cad096-2834-44d6-9599-8d2ea50c787d",
+      "type": "Feature",
+      "properties": {
+        "prominence": 230,
+        "elevation": 350,
+        "name": "Beacon"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3773,
+          47.5382
+        ]
+      },
+      "id": "240ee282-4708-4b12-9a1e-050d69c8a30f",
+      "type": "Feature",
+      "properties": {
+        "prominence": 230,
+        "elevation": 510,
+        "name": "High Point"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2673,
+          47.5478
+        ]
+      },
+      "id": "0ddb57ca-a715-419d-946c-cbd99ba8ae89",
+      "type": "Feature",
+      "properties": {
+        "prominence": 200,
+        "elevation": 350,
+        "name": "Graham"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.318,
+          47.6951
+        ]
+      },
+      "id": "9252f425-0f2f-4536-9ffb-c299cd64b9a0",
+      "type": "Feature",
+      "properties": {
+        "prominence": 170,
+        "elevation": 460,
+        "name": "Maple Leaf"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3934,
+          47.6489
+        ]
+      },
+      "id": "6b7a45f9-483c-4ded-8ed6-d03721c6f125",
+      "type": "Feature",
+      "properties": {
+        "prominence": 160,
+        "elevation": 370,
+        "name": "East Magnolia"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3819,
+          47.57
+        ]
+      },
+      "id": "b778d5a7-35bb-4e4d-b63d-576e8e25c66c",
+      "type": "Feature",
+      "properties": {
+        "prominence": 150,
+        "elevation": 430,
+        "name": "Duwamish Head"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.287,
+          47.626
+        ]
+      },
+      "id": "b93db7c9-9d01-4aaf-9d33-6e88c4405683",
+      "type": "Feature",
+      "properties": {
+        "prominence": 110,
+        "elevation": 270,
+        "name": "Washington Park"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2973,
+          47.6899
+        ]
+      },
+      "id": "7c254131-e9e6-42e7-abb5-95e654f79b16",
+      "type": "Feature",
+      "properties": {
+        "prominence": 110,
+        "elevation": 370,
+        "name": "Wedgwood"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2759,
+          47.6799
+        ]
+      },
+      "id": "aa575e6b-429b-4408-b9d1-3b4e24da5128",
+      "type": "Feature",
+      "properties": {
+        "prominence": 110,
+        "elevation": 370,
+        "name": "View Ridge"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2614,
+          47.6707
+        ]
+      },
+      "id": "2c9174b1-2d6c-428c-bd31-059aa42e5f85",
+      "type": "Feature",
+      "properties": {
+        "prominence": 110,
+        "elevation": 220,
+        "name": "Windermere"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2509,
+          47.5582
+        ]
+      },
+      "id": "9d05ab79-fcc0-4c53-a760-a46897434a29",
+      "type": "Feature",
+      "properties": {
+        "prominence": 110,
+        "elevation": 140,
+        "name": "Bailey Peninsula"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2861,
+          47.7275
+        ]
+      },
+      "id": "ef10872a-c3db-4518-ad52-3a60f98e7982",
+      "type": "Feature",
+      "properties": {
+        "prominence": 100,
+        "elevation": 340,
+        "name": "Brier Crest"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2729,
+          47.6629
+        ]
+      },
+      "id": "4e5134e8-a272-4f8b-84b2-12c3f0265f22",
+      "type": "Feature",
+      "properties": {
+        "prominence": 100,
+        "elevation": 240,
+        "name": "Laurelhurst"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3823,
+          47.5119
+        ]
+      },
+      "id": "ce817bb2-28bd-4b77-a874-0717ea9e3fac",
+      "type": "Feature",
+      "properties": {
+        "prominence": 100,
+        "elevation": 420,
+        "name": "Arbor Heights"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2595,
+          47.5069
+        ]
+      },
+      "id": "9e911694-5342-49f9-aa4f-cbee35ed9d93",
+      "type": "Feature",
+      "properties": {
+        "prominence": 90,
+        "elevation": 380,
+        "name": "Bangor"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3738,
+          47.6979
+        ]
+      },
+      "id": "6f69b0de-ec18-4085-9e8e-c07219bf6b3c",
+      "type": "Feature",
+      "properties": {
+        "prominence": 80,
+        "elevation": 360,
+        "name": "Crown"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3536,
+          47.6681
+        ]
+      },
+      "id": "388ae1e4-a292-45ea-81c4-92ddd6bb66c3",
+      "type": "Feature",
+      "properties": {
+        "prominence": 80,
+        "elevation": 360,
+        "name": "Phinney Ridge"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3994,
+          47.5676
+        ]
+      },
+      "id": "6f39c190-38dd-45d5-aefe-337f7cf8791f",
+      "type": "Feature",
+      "properties": {
+        "prominence": 80,
+        "elevation": 400,
+        "name": "Genesee Hill"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3187,
+          47.5246
+        ]
+      },
+      "id": "98ccd657-343a-4410-9bd2-c64826ec31ce",
+      "type": "Feature",
+      "properties": {
+        "prominence": 70,
+        "elevation": 110,
+        "name": "Trenton Hill"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2838,
+          47.5218
+        ]
+      },
+      "id": "e8354320-f104-42c8-833d-e5ec1516392d",
+      "type": "Feature",
+      "properties": {
+        "prominence": 70,
+        "elevation": 260,
+        "name": "Southernmost Beacon"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.331,
+          47.6651
+        ]
+      },
+      "id": "cc89f849-0b56-4537-9ebf-cdadace851f2",
+      "type": "Feature",
+      "properties": {
+        "prominence": 70,
+        "elevation": 300,
+        "name": "West Meridian co-prom (Keystone)"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3259,
+          47.6684
+        ]
+      },
+      "id": "eeaa577b-013d-4235-abe2-c8c1c29fbb8e",
+      "type": "Feature",
+      "properties": {
+        "prominence": 70,
+        "elevation": 300,
+        "name": "East Meridian co-prom (Latona)"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3211,
+          47.608
+        ]
+      },
+      "id": "bd080432-a436-464c-b395-7b74e83e4172",
+      "type": "Feature",
+      "properties": {
+        "prominence": 70,
+        "elevation": 370,
+        "name": "First Hill"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2942,
+          47.6065
+        ]
+      },
+      "id": "8066ac0b-52c6-452d-86f9-85e15e5c976d",
+      "type": "Feature",
+      "properties": {
+        "prominence": 70,
+        "elevation": 350,
+        "name": "Leschi"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2907,
+          47.6102
+        ]
+      },
+      "id": "e8ee548b-b82e-4e8b-91e0-d2277c080573",
+      "type": "Feature",
+      "properties": {
+        "prominence": 70,
+        "elevation": 350,
+        "name": "Madrona"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2869,
+          47.5795
+        ]
+      },
+      "id": "81063f38-2801-4f8c-abb3-ec292a2755c2",
+      "type": "Feature",
+      "properties": {
+        "prominence": 60,
+        "elevation": 180,
+        "name": "Mt Baker Ridge"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.365,
+          47.6327
+        ]
+      },
+      "id": "9fddf212-3f2e-4432-afcc-4b82b9cd9e27",
+      "type": "Feature",
+      "properties": {
+        "prominence": 60,
+        "elevation": 440,
+        "name": "West Queen Anne"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3846,
+          47.558
+        ]
+      },
+      "id": "4c261892-67b5-4596-8133-e6385c61a22f",
+      "type": "Feature",
+      "properties": {
+        "prominence": 50,
+        "elevation": 370,
+        "name": "41.5th & Edmunds/Hudson"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.4183,
+          47.5762
+        ]
+      },
+      "id": "b03d6667-7274-43cb-9bc6-c4263b9fb634",
+      "type": "Feature",
+      "properties": {
+        "prominence": 50,
+        "elevation": 80,
+        "name": "Alki Point"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.263,
+          47.5009
+        ]
+      },
+      "id": "02d3cedc-ef79-49cb-974d-e98a2770850b",
+      "type": "Feature",
+      "properties": {
+        "prominence": 50,
+        "elevation": 410,
+        "name": "Rainier View"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2748,
+          47.5183
+        ]
+      },
+      "id": "a2e35e21-d2a2-4510-b90c-ed578f303fe7",
+      "type": "Feature",
+      "properties": {
+        "prominence": 50,
+        "elevation": 220,
+        "name": "Marcus Ave"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3095,
+          47.6676
+        ]
+      },
+      "id": "0cd1cdb4-28ac-4cbb-8caa-4c99b88b41c6",
+      "type": "Feature",
+      "properties": {
+        "prominence": 50,
+        "elevation": 270,
+        "name": "U District HP"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2885,
+          47.6196
+        ]
+      },
+      "id": "0345007e-cdd4-4b6e-be94-ec518b817956",
+      "type": "Feature",
+      "properties": {
+        "prominence": 50,
+        "elevation": 280,
+        "name": "Harrison Ridge"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3982,
+          47.6636
+        ]
+      },
+      "id": "352cfade-eec3-4043-8c9c-7dbf1ae10509",
+      "type": "Feature",
+      "properties": {
+        "prominence": 50,
+        "elevation": 120,
+        "name": "Commodore"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3522,
+          47.5272
+        ]
+      },
+      "id": "f6bb3aac-522d-4596-a912-6ab0e24cb904",
+      "type": "Feature",
+      "properties": {
+        "prominence": 40,
+        "elevation": 450,
+        "name": "Highland Park A"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3473,
+          47.5192
+        ]
+      },
+      "id": "58af038f-d84b-41a9-b38b-4b9fce334e58",
+      "type": "Feature",
+      "properties": {
+        "prominence": 40,
+        "elevation": 450,
+        "name": "Highland Park B"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3434,
+          47.5224
+        ]
+      },
+      "id": "ddecc1b2-6db3-48b2-b02f-1da8d9217c1e",
+      "type": "Feature",
+      "properties": {
+        "prominence": 40,
+        "elevation": 450,
+        "name": "Highland Park C"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.285,
+          47.5533
+        ]
+      },
+      "id": "bed5147d-6d04-40e2-acb6-14dde18aa920",
+      "type": "Feature",
+      "properties": {
+        "prominence": 40,
+        "elevation": 230,
+        "name": "West Hitt's Hill"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.4122,
+          47.6574
+        ]
+      },
+      "id": "1bffdf0f-d622-4f50-81d8-175018610f66",
+      "type": "Feature",
+      "properties": {
+        "prominence": 40,
+        "elevation": 360,
+        "name": "Discovery Park HP"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3777819,
+          47.55654578
+        ]
+      },
+      "id": "46916124-97a5-4625-b9d4-379c23c81269",
+      "type": "Feature",
+      "properties": {
+        "prominence": 30,
+        "elevation": 400,
+        "name": "36th & Hudson/Dawson"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3133659,
+          47.52398244
+        ]
+      },
+      "id": "56c06e26-e3c7-4502-b8d7-b81b2b9a784f",
+      "type": "Feature",
+      "properties": {
+        "prominence": 30,
+        "elevation": 60,
+        "name": "Boeing South Park"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3459655,
+          47.55633943
+        ]
+      },
+      "id": "81c498e4-071c-4cb5-a558-fb3f40e44c33",
+      "type": "Feature",
+      "properties": {
+        "prominence": 30,
+        "elevation": 40,
+        "name": "Kellogg Island"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3028946,
+          47.54976825
+        ]
+      },
+      "id": "f75e7e08-4171-416d-adcc-0d9b00b9e9fa",
+      "type": "Feature",
+      "properties": {
+        "prominence": 30,
+        "elevation": 350,
+        "name": "Beacon & Juneau"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2978306,
+          47.55903645
+        ]
+      },
+      "id": "96f0a3fc-34b1-42a8-9c4e-600532787bda",
+      "type": "Feature",
+      "properties": {
+        "prominence": 30,
+        "elevation": 350,
+        "name": ""
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3154688,
+          47.58865474
+        ]
+      },
+      "id": "ecab140c-cd12-4e68-a659-6b54dbdcbbbf",
+      "type": "Feature",
+      "properties": {
+        "prominence": 30,
+        "elevation": 320,
+        "name": ""
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3161125,
+          47.56852018
+        ]
+      },
+      "id": "d778767e-d565-45b8-9e5f-b2b87325c377",
+      "type": "Feature",
+      "properties": {
+        "prominence": 30,
+        "elevation": 310,
+        "name": "13th Ave S (W Beacon)"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2897196,
+          47.53374777
+        ]
+      },
+      "id": "e83ce6af-1410-4e30-9837-b85561fb4ed8",
+      "type": "Feature",
+      "properties": {
+        "prominence": 30,
+        "elevation": 260,
+        "name": "Beacon & Holden"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2776175,
+          47.55492389
+        ]
+      },
+      "id": "db3aeb61-36a5-4444-9083-bb722d97a191",
+      "type": "Feature",
+      "properties": {
+        "prominence": 30,
+        "elevation": 250,
+        "name": ""
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2719955,
+          47.55657474
+        ]
+      },
+      "id": "83603197-4747-4934-8a23-a95201684044",
+      "type": "Feature",
+      "properties": {
+        "prominence": 30,
+        "elevation": 250,
+        "name": ""
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2730255,
+          47.5123602
+        ]
+      },
+      "id": "a3662114-ef19-4565-bc2b-579724898169",
+      "type": "Feature",
+      "properties": {
+        "prominence": 30,
+        "elevation": 240,
+        "name": ""
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.268219,
+          47.55700917
+        ]
+      },
+      "id": "24a737fd-4cad-4cc6-a2b0-f1e57032e570",
+      "type": "Feature",
+      "properties": {
+        "prominence": 30,
+        "elevation": 240,
+        "name": ""
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2921658,
+          47.56769494
+        ]
+      },
+      "id": "000f7a3a-74f9-4b4b-b1b2-ccd5050429a7",
+      "type": "Feature",
+      "properties": {
+        "prominence": 30,
+        "elevation": 180,
+        "name": ""
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2919512,
+          47.56662357
+        ]
+      },
+      "id": "ebc6be62-a8ac-45e9-8cd8-54e74cc1f13f",
+      "type": "Feature",
+      "properties": {
+        "prominence": 30,
+        "elevation": 180,
+        "name": ""
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2912216,
+          47.56424909
+        ]
+      },
+      "id": "5e616d4d-1bd6-4786-8868-e149b944068b",
+      "type": "Feature",
+      "properties": {
+        "prominence": 30,
+        "elevation": 180,
+        "name": ""
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2750318,
+          47.56838264
+        ]
+      },
+      "id": "e5470827-777f-4c73-8167-3edf06296311",
+      "type": "Feature",
+      "properties": {
+        "prominence": 30,
+        "elevation": 120,
+        "name": ""
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2739267,
+          47.5658707
+        ]
+      },
+      "id": "5bd92b1c-8672-47fa-99ee-e95e9961fbae",
+      "type": "Feature",
+      "properties": {
+        "prominence": 30,
+        "elevation": 120,
+        "name": ""
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3316908,
+          47.6936456
+        ]
+      },
+      "id": "89df9c92-64ad-497a-935d-4ac28456aa98",
+      "type": "Feature",
+      "properties": {
+        "prominence": 30,
+        "elevation": 350,
+        "name": "Licton Springs"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.27736,
+          47.6566294
+        ]
+      },
+      "id": "e544b273-2ce4-4f7e-8218-61b03395c7f0",
+      "type": "Feature",
+      "properties": {
+        "prominence": 30,
+        "elevation": 220,
+        "name": "Laurelhurst"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3418188,
+          47.61186283
+        ]
+      },
+      "id": "22c2b88d-916f-4d8d-82c9-925e130310a6",
+      "type": "Feature",
+      "properties": {
+        "prominence": 30,
+        "elevation": 160,
+        "name": "Moore Theater"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3036242,
+          47.6377789
+        ]
+      },
+      "id": "8a0702ee-6809-4430-9a46-699ee84160b0",
+      "type": "Feature",
+      "properties": {
+        "prominence": 30,
+        "elevation": 150,
+        "name": "Montlake"
+      }
+    }
+  ]
+}
