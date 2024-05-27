@@ -295,13 +295,18 @@ function RankedList(props : {
   })
 {
   // TODO include "x of the Y top Features"
-  // TODO ascending and descending?
   return (
     <div>
-      <h4>{props.config?.items ?? "Features"} with highest {props.property}:</h4>
+      <h4>Named {props.config?.items ?? "Features"} with highest {props.property}:</h4>
       <ul>
         {sortBy(props.correct.filter(f => f.properties?.[props.property] !== undefined), props.property, false).slice(0,10).map((feature, idx) => (
-          <ul key={idx}>{feature.properties?.[props.config?.title ?? "title"]} ({feature.properties?.[props.property]})</ul>
+          <li key={idx}>{feature.properties?.[props.config?.title ?? "title"]} ({feature.properties?.[props.property]})</li>
+        ))}
+      </ul>
+      <h4>Named {props.config?.items ?? "Features"} with lowest {props.property}:</h4>
+      <ul>
+        {sortBy(props.correct.filter(f => f.properties?.[props.property] !== undefined), props.property).slice(0,10).map((feature, idx) => (
+          <li key={idx}>{feature.properties?.[props.config?.title ?? "title"]} ({feature.properties?.[props.property]})</li>
         ))}
       </ul>
     </div>
