@@ -24,9 +24,11 @@ const normalize = (s : string, ignoredWords : string[]) =>
   s.trim().toLowerCase().normalize("NFKD").replace(/[^a-z0-9\s]+/g, "").split(/\s+/).filter(
     part => !ignoredWords.includes(part)
   ).map(part => {
-    // TODO define more abbreviations
-    if (part === "saint") {
-      return "st";
+    if (part === "st") {
+      return "saint";
+    }
+    if (part === "mt") {
+      return "mount";
     }
     return part;
   })
