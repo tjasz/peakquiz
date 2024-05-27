@@ -100,14 +100,9 @@ function App() {
   }, [guesses]);
 
   const processServerFile = (
-    fname : string | null,
-    // TODO make these URL param filters general
-    prominence : string | null,
-    elevation : string | null,
-    countries : string[],
-    states : string[]
+    fname : string | null
   ) => {
-    if (!fname && !prominence && !elevation && countries.length === 0 && states.length === 0) {
+    if (!fname) {
       return;
     }
     // TODO switch the default file to something I have a license for
@@ -120,15 +115,8 @@ function App() {
       .then(res => res.json())
       .then(
         (result) => {
-          // filter the features according to the parameters
-          // TODO make these filters configurable
-          const features = result.features.filter(
-            (feature : Feature) =>
-              feature.properties?.["prominenceFt"] >= parseInt(prominence ?? "300")
-              && feature.properties?.["elevationFt"] >= parseInt(elevation ?? "0")
-              && (countries.length === 0 || countries.some(country => feature.properties?.["country"].includes(country)))
-              && (states.length === 0 || states.some(state => feature.properties?.["usState"].includes(state)))
-          );
+          // TODO filter features according to URL params?
+          const features = result.features;
           // set any correct guesses
           const answers = Array.from(guesses).reduce<Feature[]>((acc, guess) => {
             const answersForGuess = features.filter((feature:Feature) => isMatch(guess, feature));
@@ -149,32 +137,9 @@ function App() {
       )
   };
   const [file, setFile] = useState(urlParams.get("f"));
-  // TODO these filters and URL params should be configurable
-  const [prominence, setProminence] = useState(urlParams.get("p"));
-  const [elevation, setElevation] = useState(urlParams.get("e"));
-  const [countries, setCountries] = useState(urlParams
-  .get("c")
-  ?.split(",")
-  .reduce<string[]>((arr, s) => {
-    const isoResult = iso3166.country(s.toUpperCase())?.name;
-    if (isoResult) {
-      return [...arr, isoResult];
-    }
-    return arr;
-  }, []) ?? []);
-  const [states, setStates] = useState(urlParams
-    .get("s")
-    ?.split(",")
-    .reduce<string[]>((arr, s) => {
-      const isoResult = iso3166.subdivision("US", s.toUpperCase())?.name;
-      if (isoResult) {
-        return [...arr, isoResult];
-      }
-      return arr;
-    }, []) ?? []);
   useEffect(() => {
-    processServerFile(file, prominence, elevation, countries, states);
-  }, [file, prominence, elevation, countries, states]);
+    processServerFile(file);
+  }, [file]);
 
   const handleInput : React.FormEventHandler<HTMLInputElement> = (ev) => {
     setDraft(ev.currentTarget.value);
