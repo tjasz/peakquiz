@@ -481,7 +481,7 @@ function FilteredCorrectView(props : {
 
 function bboxToLatLngBounds(bbox : BBox) : LatLngBoundsLiteral {
   const len = bbox.length;
-  return [[bbox[0], bbox[1]], [bbox[len/2], bbox[len/2 + 1]]];
+  return [[bbox[1], bbox[0]], [bbox[len/2 + 1], bbox[len/2]]];
 }
 
 function ChangeView(props : { features : FeatureCollection }) : null {
@@ -522,7 +522,7 @@ const StateMap = (props : { geojson : FeatureCollection, config? : GeoquizParame
       pointToLayer={(feature, latlng) =>
         new L.CircleMarker(
           latlng,
-          {radius: 1 + parseInt(feature.properties?.["prominenceFt"]) / 1000}
+          {radius: 1 + parseInt(feature.properties?.["prominenceFt"] ?? 0) / 1000}
         )}
       onEachFeature={(feature, layer) => {
         layer.bindPopup(
