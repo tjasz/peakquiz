@@ -277,6 +277,7 @@ function App() {
         <FilteredCorrectView
           correct={Array.from(correct)}
           all={data.features}
+          config={data.geoquiz}
           />
       </div>
       <SourceAttribution config={data.geoquiz} />
@@ -445,38 +446,18 @@ function GuessesView(props: {guesses : string[]}) {
 
 function FilteredCorrectView(props : {
   correct : Feature[],
-  all : Feature[]
+  all : Feature[],
+  config? : GeoquizParameters,
   })
   {
-    // TODO make binning, summing, and ranking parameters configurable in the file
-    const prominenceOptions = [300, 400, 1000, 2000, 3000, 5000, 10000];
-    const elevationOptions = [0, 8000, 9000, 10000, 11000, 12000, 13000, 14000];
-    const [prominenceCutoff, setProminenceCutoff] = useState(prominenceOptions[0]);
-    const [elevationCutoff, setElevationCutoff] = useState(elevationOptions[0]);
     const [showAll, setShowAll] = useState(false);
     
-    const predicate = (feature:Feature) =>
-      parseInt(feature.properties?.["prominenceFt"]) >= prominenceCutoff &&
-      parseInt(feature.properties?.["elevationFt"]) >= elevationCutoff;
-    const correctFiltered = props.correct.filter(predicate);
-    const allFiltered = props.all.filter(predicate);
     return <div id="all-correct">
-      <h3>{correctFiltered.length} ({Math.round(correctFiltered.length / allFiltered.length * 100)}%) of {allFiltered.length} filtered peaks:</h3>
-      <label htmlFor="prominenceCutoff">Prominence cutoff (ft):</label>
-      <select name="prominenceCutoff" id="prominenceCutoff" onChange={(ev) => setProminenceCutoff(parseInt(ev.target.value))}>
-        {prominenceOptions.map(op => <option key={op} value={op}>{op}</option>)}
-      </select>
-      <br />
-      <label htmlFor="elevationCutoff">Elevation cutoff (ft):</label>
-      <select name="elevationCutoff" id="elevationCutoff" onChange={(ev) => setElevationCutoff(parseInt(ev.target.value))}>
-        {elevationOptions.map(op => <option key={op} value={op}>{op}</option>)}
-      </select>
+      <h3>Named {props.config?.items ?? "features"} - {props.correct.length} ({Math.round(props.correct.length / props.all.length * 100)}% of {props.all.length}):</h3>
       <ul>
-        {correctFiltered.slice(0, showAll ? correctFiltered.length : 5).map(feature => (
+        {props.correct.slice(0, showAll ? props.correct.length : 5).map(feature => (
         <li key={feature.id}>
-          <a className="App-link" target="_blank" href={feature.properties?.["peakbaggerUrl"]}>
-            {feature.properties?.["title"]}
-          </a>
+          {feature.properties?.[props.config?.titleProperty ?? "title"]}
         </li>
         ))}
       </ul>
