@@ -13,11 +13,12 @@ type PropertyDefinition = {
 };
 type GeoquizParameters = {
   items?: string;
-  titleProperty: string;
   source?: string;
   sourceUrl?: string;
   ignoredWords?: string[];
-  properties: PropertyDefinition[];
+  titleProperty?: string;
+  altTitleProperties?: string[];
+  properties?: PropertyDefinition[];
 };
 
 const normalize = (s : string, ignoredWords : string[]) =>
@@ -34,11 +35,27 @@ const normalize = (s : string, ignoredWords : string[]) =>
   })
   .join(" ");
 
-function isMatch(guess : string, answer : Feature, titleProperty : string, ignoredWords : string[]) : boolean {
+function isMatch(
+  guess : string,
+  answer : Feature,
+  titleProperty : string,
+  altTitleProperties : string[],
+  ignoredWords : string[]
+) : boolean
+{
   const guessNormalized = normalize(guess, ignoredWords);
-  // TODO make matching field(s)/expression configurable in the file
-  const answerNormalized = normalize(answer.properties?.[titleProperty], ignoredWords);
-  return guessNormalized === answerNormalized;
+
+  for (const property of [titleProperty, ...altTitleProperties]) {
+    const value = answer.properties?.[property];
+    if (value !== undefined) {
+      const answerNormalized = normalize(value, ignoredWords);
+      if (guessNormalized === answerNormalized) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }
 
 const baseLayer = {
@@ -125,6 +142,7 @@ function App() {
               guess,
               feature,
               result?.geoquiz?.titleProperty ?? "title",
+              result?.geoquiz?.altTitleProperties ?? [],
               result?.geoquiz?.ignoredWords ?? []
             ));
             return [...acc, ...answersForGuess];
@@ -159,6 +177,7 @@ function App() {
         draft,
         v,
         data?.geoquiz?.titleProperty ?? "title",
+        data?.geoquiz?.altTitleProperties ?? [],
         data?.geoquiz?.ignoredWords ?? []
       ))
       if (answers && answers.length) {
@@ -219,7 +238,7 @@ function App() {
         of {data.features.length} {data.geoquiz?.items ?? "features"}.
       </p>
       <div id="result-container">
-        {data.geoquiz?.properties.filter(p => p.level === "rational").map(p => (
+        {data.geoquiz?.properties?.filter(p => p.level === "rational").map(p => (
           <RationalPropertyView
           key={p.name}
           config={data.geoquiz}
@@ -228,7 +247,7 @@ function App() {
           property={p.name}
           />
         ))}
-        {data.geoquiz?.properties.filter(p => p.level === "ordinal").map(p => (
+        {data.geoquiz?.properties?.filter(p => p.level === "ordinal").map(p => (
           <OrdinalPropertyView
           key={p.name}
           config={data.geoquiz}
@@ -237,7 +256,7 @@ function App() {
           property={p.name}
           />
         ))}
-        {data.geoquiz?.properties.filter(p => p.level === "nominal").map(p => (
+        {data.geoquiz?.properties?.filter(p => p.level === "nominal").map(p => (
           <NominalPropertyView
           key={p.name}
           config={data.geoquiz}
@@ -309,7 +328,7 @@ function NominalPropertyView(props : {
       {Array.from(binCounts.keys()).map((key) => {
         const correct = correctBinCounts.get(key) ?? 0;
         const total = binCounts.get(key) ?? 0;
-        return <li>
+        return <li key={key}>
           <strong>{key}</strong>: {correct} of {total} ({Math.round(100 * correct / total)}%)
         </li>
       })}
