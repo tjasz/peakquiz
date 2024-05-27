@@ -201,6 +201,7 @@ function App() {
         <h3>Select a quiz:</h3>
         <ul>
           <li><a href="?f=usstates">U.S. States</a></li>
+          <li><a href="?f=uscounties">U.S. Counties</a></li>
           <li><a href="?f=uswild">U.S. Wilderness Areas</a></li>
           <li><a href="?f=seattle-hills">Seattle Hills</a></li>
         </ul>
