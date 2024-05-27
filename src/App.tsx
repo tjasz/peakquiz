@@ -228,6 +228,14 @@ function App() {
           property={p.name}
           />
         ))}
+        {data.geoquiz?.properties.filter(p => p.level === "ordinal").map(p => (
+          <OrdinalPropertyView
+          config={data.geoquiz}
+          correct={Array.from(correct)}
+          all={data.features}
+          property={p.name}
+          />
+        ))}
         <GuessesView guesses={Array.from(guesses)} />
         <FilteredCorrectView
           correct={Array.from(correct)}
@@ -255,20 +263,35 @@ function RationalPropertyView(props : {
   const sumCorrect = props.correct.reduce((sum, feature) => sum + feature.properties?.[props.property], 0);
   const percentage = Math.round(sumCorrect / total * 100);
 
-  // TODO include ranking of top correct ones and number of top "all" that were guessed
-  // both ascending and descending
   return <div>
     <h3>{props.property}</h3>
     {total > 0 ? <p>Correct guesses account for {percentage}% of the total {props.property}.</p> : null}
-    <RankedList config={props.config} correct={props.correct} property={props.property} />
+    <RankedList config={props.config} correct={props.correct} all={props.all} property={props.property} />
+  </div>
+}
+
+function OrdinalPropertyView(props : {
+  config? : GeoquizParameters,
+  correct : Feature[],
+  all : Feature[],
+  property: string,
+  })
+{
+  return <div>
+    <h3>{props.property}</h3>
+    <RankedList config={props.config} correct={props.correct} all={props.all} property={props.property} />
   </div>
 }
 
 function RankedList(props : {
   config? : GeoquizParameters,
   correct : Feature[],
+  all : Feature[],
   property: string,
-  }) {
+  })
+{
+  // TODO include "x of the Y top Features"
+  // TODO ascending and descending?
   return (
     <div>
       <h4>{props.config?.items ?? "Features"} with highest {props.property}:</h4>
