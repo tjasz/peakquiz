@@ -108,8 +108,7 @@ function App() {
     if (!fname) {
       return;
     }
-    // TODO switch the default file to something I have a license for
-    fetch(`json/${fname ?? "test"}.json`,{
+    fetch(`json/${fname}.json`,{
         headers : {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
