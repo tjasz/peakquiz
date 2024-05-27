@@ -420,6 +420,7 @@ const StateMap = (props : { geojson : FeatureCollection }) => {
   }, [geoJsonRef, props.geojson])
 
   // TODO make the symbology come from the file
+  // TODO bind popup to non-point features
   return (
     <GeoJSON
       ref={geoJsonRef}
