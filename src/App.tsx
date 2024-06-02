@@ -37,7 +37,7 @@ const normalize = (s : string, ignoredWords : string[]) =>
     }
     return part;
   })
-  .join(" ");
+  .join("");
 
 function isMatch(
   guess : string,
